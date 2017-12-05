@@ -68,7 +68,29 @@ public class EventNotificationCtr {
 	}
 
 	
-	public static EventNotificationCtr parse(String json) {
-		return (EventNotificationCtr) System.JSON.deserialize(json, EventNotificationCtr.class);
+	public static void EventNotificationCtr parse() {
+		String endpoint = '';
+		Http http = new Http();
+		HttpRequest req = new HttpRequest();
+			req.setMethod('GET');
+			req.setEndpoint(endpoint);
+			
+			HttpResponse res = http.send(req);
+			String responseBody = res.getBody();
+			
+		EventNotificationCtr ent = (EventNotificationCtr)System.deserializeUntype(responseBody, EventNotificationCtr.Class);
+		List<ServiceCategoryCode> listShemaCode = List<ServiceCategoryCode>();
+		for(EventNotificationCtr obj : Originator.ApplicationID ){
+			listShemaCode.add(obj.schemeCode);
+		}
+		
+		List<Account> accList = new List<Account>();
+		for(ServiceCategoryCode obj : listShemaCode){
+			Account acc = new Account();
+				acc.Name = obj.shortName;
+			accList.add(acc);
+		}	
+		Insert accList;
+		
 	}
 }
