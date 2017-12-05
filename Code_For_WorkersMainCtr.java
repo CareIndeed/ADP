@@ -8,7 +8,7 @@ public class WorkersMainCtr{
         Workers wrk = (Workers)System.JSON.deserialize(json, Workers.class);
         
 		for(cls_workers obj : wrk.workers){
-			system.debug('wrk-------------'+obj.person){get;set;}			
+			system.debug('wrk-------------'+obj.person);			
 		}
     }
     

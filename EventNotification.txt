@@ -1,0 +1,74 @@
+public class EventNotificationCtr {
+
+	public class Originator {
+		public ApplicationID applicationID  {get;set;}
+		public String associateOID  {get;set;}
+		public String formattedName  {get;set;}
+		public String eventID  {get;set;}
+		public ServiceCategoryCode eventNameCode  {get;set;}
+		public String deviceID  {get;set;}
+	}
+
+	public class Events {
+		public String eventID  {get;set;}
+		public ServiceCategoryCode serviceCategoryCode  {get;set;}
+		public ServiceCategoryCode eventNameCode  {get;set;}
+		public String eventTitle  {get;set;}
+		public ServiceCategoryCode eventReasonCode  {get;set;}
+		public ServiceCategoryCode eventStatusCode  {get;set;}
+		public ServiceCategoryCode priorityCode  {get;set;}
+		public String recordDateTime  {get;set;}
+		public String creationDateTime  {get;set;}
+		public String effectiveDateTime  {get;set;}
+		public String expirationDateTime  {get;set;}
+		public String dueDateTime  {get;set;}
+		public Originator originator  {get;set;}
+		public Actor actor  {get;set;}
+		public List<Links> links  {get;set;}
+	}
+
+	public class Actor {
+		public ApplicationID applicationID  {get;set;}
+		public String associateOID  {get;set;}
+		public String formattedName  {get;set;}
+		public String deviceID  {get;set;}
+		public GeoCoordinate geoCoordinate  {get;set;}
+		public String deviceUserAgentID  {get;set;}
+	}
+
+	public class Links {
+		public String href  {get;set;}
+		public String rel  {get;set;}
+		public String title  {get;set;}
+		public String targetSchema  {get;set;}
+		public String mediaType  {get;set;}
+		public String method  {get;set;}
+		public String encType  {get;set;}
+		public String schema  {get;set;}
+	}
+
+	public class GeoCoordinate {
+		public Integer latitude  {get;set;}
+		public Integer longitude  {get;set;}
+	}
+
+	public class ApplicationID {
+		public String idValue  {get;set;}
+		public ServiceCategoryCode schemeCode  {get;set;}
+	}
+
+	public class ServiceCategoryCode {
+		public String codeValue  {get;set;}
+		public String shortName  {get;set;}
+		public String longName  {get;set;}
+	}
+
+	public class EventNotificationCtr {
+		public List<Events> events  {get;set;}
+	}
+
+	
+	public static EventNotificationCtr parse(String json) {
+		return (EventNotificationCtr) System.JSON.deserialize(json, EventNotificationCtr.class);
+	}
+}
