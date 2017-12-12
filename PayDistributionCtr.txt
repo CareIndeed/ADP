@@ -1,299 +1,313 @@
 public class payDistributionsCtr {
 
 	public class PreferredSalutations {
-		public PrecedenceCode salutationCode;
-		public PrecedenceCode typeCode;
-		public Integer sequenceNumber;
+		public PrecedenceCode salutationCode{get;set;}
+		public PrecedenceCode typeCode{get;set;}
+		public Integer sequenceNumber{get;set;}
 	}
 
 	public class Meta {
-		public Integer startSequence;
-		public Boolean completeIndicator;
-		public Integer totalNumber;
-		public String resourceSetID;
-		public List<Links> links;
+		public Integer startSequence{get;set;}
+		public Boolean completeIndicator{get;set;}
+		public Integer totalNumber{get;set;}
+		public String resourceSetID{get;set;}
+		public List<Links> links{get;set;}
 	}
 
 	public class FinancialPartyID {
-		public String idValue;
-		public PrecedenceCode schemeCode;
+		public String idValue{get;set;}
+		public PrecedenceCode schemeCode{get;set;}
 	}
 
 	public class payDistributionsCtr {
-		public List<PayDistributions> payDistributions;
-		public Meta meta;
-		public ConfirmMessage confirmMessage;
+		public List<PayDistributions> payDistributions{get;set;}
+		public Meta meta{get;set;}
+		public ConfirmMessage confirmMessage{get;set;}
 	}
 
 	public class Address {
-		public PrecedenceCode nameCode;
-		public PrecedenceCode scriptCode;
-		public String attentionOfName;
-		public String careOfName;
-		public String lineOne;
-		public String lineTwo;
-		public String lineThree;
-		public String lineFour;
-		public String lineFive;
-		public String buildingNumber;
-		public String buildingName;
-		public String blockName;
-		public String streetName;
-		public PrecedenceCode streetTypeCode;
-		public String unit;
-		public String floor;
-		public String stairCase;
-		public String door;
-		public String postOfficeBox;
-		public String deliveryPoint;
-		public String plotID;
-		public String cityName;
-		public CountrySubdivisionLevel1 countrySubdivisionLevel1;
-		public CountrySubdivisionLevel1 countrySubdivisionLevel2;
-		public String countryCode;
-		public String postalCode;
-		public GeoCoordinate geoCoordinate;
+		public PrecedenceCode nameCode{get;set;}
+		public PrecedenceCode scriptCode{get;set;}
+		public String attentionOfName{get;set;}
+		public String careOfName{get;set;}
+		public String lineOne{get;set;}
+		public String lineTwo{get;set;}
+		public String lineThree{get;set;}
+		public String lineFour{get;set;}
+		public String lineFive{get;set;}
+		public String buildingNumber{get;set;}
+		public String buildingName{get;set;}
+		public String blockName{get;set;}
+		public String streetName{get;set;}
+		public PrecedenceCode streetTypeCode{get;set;}
+		public String unit{get;set;}
+		public String floor{get;set;}
+		public String stairCase{get;set;}
+		public String door{get;set;}
+		public String postOfficeBox{get;set;}
+		public String deliveryPoint{get;set;}
+		public String plotID{get;set;}
+		public String cityName{get;set;}
+		public CountrySubdivisionLevel1 countrySubdivisionLevel1{get;set;}
+		public CountrySubdivisionLevel1 countrySubdivisionLevel2{get;set;}
+		public String countryCode{get;set;}
+		public String postalCode{get;set;}
+		public GeoCoordinate geoCoordinate{get;set;}
 	}
 
 	public class DistributionStatusCode {
-		public String codeValue;
-		public String shortName;
-		public String longName;
-		public String effectiveDate;
+		public String codeValue{get;set;}
+		public String shortName{get;set;}
+		public String longName{get;set;}
+		public String effectiveDate{get;set;}
 	}
 
 	public class PayeeName {
-		public String givenName;
-		public String middleName;
-		public String familyName1;
-		public String familyName2;
-		public String formattedName;
-		public PrecedenceCode nameCode;
-		public PrecedenceCode scriptCode;
-		public List<PreferredSalutations> preferredSalutations;
-		public String nickName;
-		public PrecedenceCode generationAffixCode;
-		public PrecedenceCode qualificationAffixCode;
-		public List<TitleAffixCodes> titleAffixCodes;
-		public String familyName1Prefix;
-		public String familyName2Prefix;
-		public String initials;
+		public String givenName{get;set;}
+		public String middleName{get;set;}
+		public String familyName1{get;set;}
+		public String familyName2{get;set;}
+		public String formattedName{get;set;}
+		public PrecedenceCode nameCode{get;set;}
+		public PrecedenceCode scriptCode{get;set;}
+		public List<PreferredSalutations> preferredSalutations{get;set;}
+		public String nickName{get;set;}
+		public PrecedenceCode generationAffixCode{get;set;}
+		public PrecedenceCode qualificationAffixCode{get;set;}
+		public List<TitleAffixCodes> titleAffixCodes{get;set;}
+		public String familyName1Prefix{get;set;}
+		public String familyName2Prefix{get;set;}
+		public String initials{get;set;}
 	}
 
 	public class GeoCoordinate {
-		public Integer latitude;
-		public Integer longitude;
+		public Integer latitude{get;set;}
+		public Integer longitude{get;set;}
 	}
 
 	public class ConfirmMessageID {
-		public String idValue;
-		public String schemeName;
-		public String schemeAgencyName;
+		public String idValue{get;set;}
+		public String schemeName{get;set;}
+		public String schemeAgencyName{get;set;}
 	}
 
 	public class UserMessage {
-		public String codeValue;
-		public String title;
-		public String messageTxt;
-		public List<Links> links;
+		public String codeValue{get;set;}
+		public String title{get;set;}
+		public String messageTxt{get;set;}
+		public List<Links> links{get;set;}
 	}
 
 	public class Landlines {
-		public PrecedenceCode nameCode;
-		public String countryDialing;
-		public String areaDialing;
-		public String dialNumber;
-		public String extension;
-		public String access;
-		public String formattedNumber;
-		public String itemID;
+		public PrecedenceCode nameCode{get;set;}
+		public String countryDialing{get;set;}
+		public String areaDialing{get;set;}
+		public String dialNumber{get;set;}
+		public String extension{get;set;}
+		public String access{get;set;}
+		public String formattedNumber{get;set;}
+		public String itemID{get;set;}
 	}
 
 	public class PayLoadArguments {
-		public String argumentPath;
-		public String argumentValue;
+		public String argumentPath{get;set;}
+		public String argumentValue{get;set;}
 	}
 
 	public class Emails {
-		public PrecedenceCode nameCode;
-		public String emailUri;
-		public String itemID;
+		public PrecedenceCode nameCode{get;set;}
+		public String emailUri{get;set;}
+		public String itemID{get;set;}
 	}
 
 	public class Communication {
-		public List<Landlines> landlines;
-		public List<Landlines> mobiles;
-		public List<Emails> emails;
-		public List<SocialNetworks> socialNetworks;
-		public List<Landlines> faxes;
-		public List<Landlines> pagers;
-		public List<SocialNetworks> internetAddresses;
-		public List<SocialNetworks> instantMessages;
+		public List<Landlines> landlines{get;set;}
+		public List<Landlines> mobiles{get;set;}
+		public List<Emails> emails{get;set;}
+		public List<SocialNetworks> socialNetworks{get;set;}
+		public List<Landlines> faxes{get;set;}
+		public List<Landlines> pagers{get;set;}
+		public List<SocialNetworks> internetAddresses{get;set;}
+		public List<SocialNetworks> instantMessages{get;set;}
 	}
 
 	public class FinancialParty {
-		public PrecedenceCode nameCode;
-		public Address address;
-		public FinancialPartyID financialPartyID;
-		public String SWIFTCode;
-		public PrecedenceCode branchNameCode;
-		public FinancialPartyID routingTransitID;
-		public Communication communication;
+		public PrecedenceCode nameCode{get;set;}
+		public Address address{get;set;}
+		public FinancialPartyID financialPartyID{get;set;}
+		public String SWIFTCode{get;set;}
+		public PrecedenceCode branchNameCode{get;set;}
+		public FinancialPartyID routingTransitID{get;set;}
+		public Communication communication{get;set;}
 	}
 
 	public class ResourceMessages {
-		public ConfirmMessageID resourceMessageID;
-		public PrecedenceCode resourceStatusCode;
-		public Links resourceLink;
-		public List<ProcessMessages_Z> processMessages;
+		public ConfirmMessageID resourceMessageID{get;set;}
+		public PrecedenceCode resourceStatusCode{get;set;}
+		public Links resourceLink{get;set;}
+		public List<ProcessMessages_Z> processMessages{get;set;}
 	}
 
 	public class Actions {
-		public String operationID;
-		public String canonicalUri;
-		public String actionTypeCode;
-		public Boolean confirmationRequiredIndicator;
-		public Boolean commentAllowedIndicator;
-		public Boolean defaultIndicator;
-		public Integer sequence;
-		public Attestation attestation;
-		public List<Links> links;
+		public String operationID{get;set;}
+		public String canonicalUri{get;set;}
+		public String actionTypeCode{get;set;}
+		public Boolean confirmationRequiredIndicator{get;set;}
+		public Boolean commentAllowedIndicator{get;set;}
+		public Boolean defaultIndicator{get;set;}
+		public Integer sequence{get;set;}
+		public Attestation attestation{get;set;}
+		public List<Links> links{get;set;}
 	}
 
 	public class ProcessMessages {
-		public ConfirmMessageID processMessageID;
-		public PrecedenceCode messageTypeCode;
-		public String sourceLocationExpression;
-		public PrecedenceCode expressionLanguageCode;
-		public List<Links> links;
-		public UserMessage userMessage;
-		public UserMessage developerMessage;
+		public ConfirmMessageID processMessageID{get;set;}
+		public PrecedenceCode messageTypeCode{get;set;}
+		public String sourceLocationExpression{get;set;}
+		public PrecedenceCode expressionLanguageCode{get;set;}
+		public List<Links> links{get;set;}
+		public UserMessage userMessage{get;set;}
+		public UserMessage developerMessage{get;set;}
 	}
 
 	public class CountrySubdivisionLevel1 {
-		public String codeValue;
-		public String shortName;
-		public String longName;
-		public String subdivisionType;
+		public String codeValue{get;set;}
+		public String shortName{get;set;}
+		public String longName{get;set;}
+		public String subdivisionType{get;set;}
 	}
 
 	public class PayDistributions {
-		public List<DistributionInstructions> distributionInstructions;
-		public List<Actions> actions;
-		public String requestedStartDate;
-		public PrecedenceCode distributionPurposeCode;
-		public DistributionStatusCode distributionStatusCode;
-		public String itemID;
-		public String payrollFileNumber;
-		public String payrollAgreementDescription;
-		public PrecedenceCode payrollRegionCode;
-		public PrecedenceCode payrollGroupCode;
-		public List<Links> links;
+		public List<DistributionInstructions> distributionInstructions{get;set;}
+		public List<Actions> actions{get;set;}
+		public String requestedStartDate{get;set;}
+		public PrecedenceCode distributionPurposeCode{get;set;}
+		public DistributionStatusCode distributionStatusCode{get;set;}
+		public String itemID{get;set;}
+		public String payrollFileNumber{get;set;}
+		public String payrollAgreementDescription{get;set;}
+		public PrecedenceCode payrollRegionCode{get;set;}
+		public PrecedenceCode payrollGroupCode{get;set;}
+		public List<Links> links{get;set;}
 	}
 
 	public class ConfirmMessage {
-		public ConfirmMessageID confirmMessageID;
-		public String createDateTime;
-		public String requestReceiptDateTime;
-		public PrecedenceCode protocolStatusCode;
-		public PrecedenceCode protocolCode;
-		public ConfirmMessageID requestID;
-		public PrecedenceCode requestStatusCode;
-		public PrecedenceCode requestMethodCode;
-		public ConfirmMessageID sessionID;
-		public String requestETag;
-		public Links requestLink;
-		public PrecedenceCode processingStatusCode;
-		public List<ProcessMessages> processMessages;
-		public List<ResourceMessages> resourceMessages;
+		public ConfirmMessageID confirmMessageID{get;set;}
+		public String createDateTime{get;set;}
+		public String requestReceiptDateTime{get;set;}
+		public PrecedenceCode protocolStatusCode{get;set;}
+		public PrecedenceCode protocolCode{get;set;}
+		public ConfirmMessageID requestID{get;set;}
+		public PrecedenceCode requestStatusCode{get;set;}
+		public PrecedenceCode requestMethodCode{get;set;}
+		public ConfirmMessageID sessionID{get;set;}
+		public String requestETag{get;set;}
+		public Links requestLink{get;set;}
+		public PrecedenceCode processingStatusCode{get;set;}
+		public List<ProcessMessages> processMessages{get;set;}
+		public List<ResourceMessages> resourceMessages{get;set;}
 	}
 
 	public class Attestation {
-		public Boolean actionBlockIndicator;
-		public String messageTxt;
-		public String messageUri;
+		public Boolean actionBlockIndicator{get;set;}
+		public String messageTxt{get;set;}
+		public String messageUri{get;set;}
 	}
 
 	public class DepositAccount {
-		public String BBAN;
-		public String IBAN;
-		public String UPIC;
-		public FinancialParty financialParty;
-		public FinancialAccount financialAccount;
+		public String BBAN{get;set;}
+		public String IBAN{get;set;}
+		public String UPIC{get;set;}
+		public FinancialParty financialParty{get;set;}
+		public FinancialAccount financialAccount{get;set;}
 	}
 
 	public class ProcessMessages_Z {
-		public ConfirmMessageID processMessageID;
-		public PrecedenceCode messageTypeCode;
-		public String sourceLocationExpression;
-		public PrecedenceCode expressionLanguageCode;
-		public List<Links> links;
-		public UserMessage userMessage;
-		public UserMessage developerMessage;
-		public PrecedenceCode resourceStatusCode;
+		public ConfirmMessageID processMessageID{get;set;}
+		public PrecedenceCode messageTypeCode{get;set;}
+		public String sourceLocationExpression{get;set;}
+		public PrecedenceCode expressionLanguageCode{get;set;}
+		public List<Links> links{get;set;}
+		public UserMessage userMessage{get;set;}
+		public UserMessage developerMessage{get;set;}
+		public PrecedenceCode resourceStatusCode{get;set;}
 	}
 
 	public class PrecedenceCode {
-		public String codeValue;
-		public String shortName;
-		public String longName;
+		public String codeValue{get;set;}
+		public String shortName{get;set;}
+		public String longName{get;set;}
 	}
 
 	public class DistributionAmount {
-		public Integer amountValue;
-		public String currencyCode;
+		public Integer amountValue{get;set;}
+		public String currencyCode{get;set;}
 	}
 
 	public class TitleAffixCodes {
-		public PrecedenceCode affixCode;
-		public Integer sequenceNumber;
+		public PrecedenceCode affixCode{get;set;}
+		public Integer sequenceNumber{get;set;}
 	}
 
 	public class FinancialAccount {
-		public String accountNumber;
-		public String accountName;
-		public PrecedenceCode typeCode;
-		public String currencyCode;
+		public String accountNumber{get;set;}
+		public String accountName{get;set;}
+		public PrecedenceCode typeCode{get;set;}
+		public String currencyCode{get;set;}
 	}
 
 	public class DistributionInstructions {
-		public PrecedenceCode precedenceCode;
-		public PrecedenceCode paymentMethodCode;
-		public DepositAccount depositAccount;
-		public Payee payee;
-		public DistributionAmount distributionAmount;
-		public Integer distributionPercentage;
-		public Boolean remainingBalanceIndicator;
-		public String itemID;
-		public Boolean prenoteIndicator;
+		public PrecedenceCode precedenceCode{get;set;}
+		public PrecedenceCode paymentMethodCode{get;set;}
+		public DepositAccount depositAccount{get;set;}
+		public Payee payee{get;set;}
+		public DistributionAmount distributionAmount{get;set;}
+		public Integer distributionPercentage{get;set;}
+		public Boolean remainingBalanceIndicator{get;set;}
+		public String itemID{get;set;}
+		public Boolean prenoteIndicator{get;set;}
 	}
 
 	public class Links {
-		public String href;
-		public String rel;
-		public String title;
-		public String targetSchema;
-		public String mediaType;
-		public String method;
-		public String encType;
-		public String schema;
-		public List<PayLoadArguments> payLoadArguments;
+		public String href{get;set;}
+		public String rel{get;set;}
+		public String title{get;set;}
+		public String targetSchema{get;set;}
+		public String mediaType{get;set;}
+		public String method{get;set;}
+		public String encType{get;set;}
+		public String schema{get;set;}
+		public List<PayLoadArguments> payLoadArguments{get;set;}
 	}
 
 	public class SocialNetworks {
-		public PrecedenceCode nameCode;
-		public String uri;
-		public String itemID;
+		public PrecedenceCode nameCode{get;set;}
+		public String uri{get;set;}
+		public String itemID{get;set;}
 	}
 
 	public class Payee {
-		public PrecedenceCode nameCode;
-		public Address address;
-		public PayeeName payeeName;
+		public PrecedenceCode nameCode{get;set;}
+		public Address address{get;set;}
+		public PayeeName payeeName{get;set;}
 	}
 
 	
 	public static JSON2Apex parse(String json) {
 		return (payDistributionsCtr) System.JSON.deserialize(json, payDistributionsCtr.class);
+		Lits<SocialNetworks> snw = new List<SocialNetworks>();
+		for(payDistributionsCtr pdc: SocialNetworks){
+			snw.add(pdc);
+		}
+		
+		List<Account> acclist = new List<Account>();
+		for(SocialNetworks sn: snw){
+			Account acc = new Account();
+			acc.Name = sn.nameCode;
+			acc.Address = sn.address;
+				acclist.add(acc);
+		}
+		insert acclist;
+		
 	}
 }
