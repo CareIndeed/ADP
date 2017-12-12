@@ -630,7 +630,7 @@ public class JobapplicationV2Ctr {
 	}
 
 	
-	public static JobapplicationV2Ctr parse(String json) {
+	public static JobapplicationV2 parse(String json) {
 		return (JobapplicationV2Ctr) System.JSON.deserialize(json, JobapplicationV2Ctr.class);
 	}
 }

@@ -1,0 +1,299 @@
+public class payDistributionsCtr {
+
+	public class PreferredSalutations {
+		public PrecedenceCode salutationCode;
+		public PrecedenceCode typeCode;
+		public Integer sequenceNumber;
+	}
+
+	public class Meta {
+		public Integer startSequence;
+		public Boolean completeIndicator;
+		public Integer totalNumber;
+		public String resourceSetID;
+		public List<Links> links;
+	}
+
+	public class FinancialPartyID {
+		public String idValue;
+		public PrecedenceCode schemeCode;
+	}
+
+	public class payDistributionsCtr {
+		public List<PayDistributions> payDistributions;
+		public Meta meta;
+		public ConfirmMessage confirmMessage;
+	}
+
+	public class Address {
+		public PrecedenceCode nameCode;
+		public PrecedenceCode scriptCode;
+		public String attentionOfName;
+		public String careOfName;
+		public String lineOne;
+		public String lineTwo;
+		public String lineThree;
+		public String lineFour;
+		public String lineFive;
+		public String buildingNumber;
+		public String buildingName;
+		public String blockName;
+		public String streetName;
+		public PrecedenceCode streetTypeCode;
+		public String unit;
+		public String floor;
+		public String stairCase;
+		public String door;
+		public String postOfficeBox;
+		public String deliveryPoint;
+		public String plotID;
+		public String cityName;
+		public CountrySubdivisionLevel1 countrySubdivisionLevel1;
+		public CountrySubdivisionLevel1 countrySubdivisionLevel2;
+		public String countryCode;
+		public String postalCode;
+		public GeoCoordinate geoCoordinate;
+	}
+
+	public class DistributionStatusCode {
+		public String codeValue;
+		public String shortName;
+		public String longName;
+		public String effectiveDate;
+	}
+
+	public class PayeeName {
+		public String givenName;
+		public String middleName;
+		public String familyName1;
+		public String familyName2;
+		public String formattedName;
+		public PrecedenceCode nameCode;
+		public PrecedenceCode scriptCode;
+		public List<PreferredSalutations> preferredSalutations;
+		public String nickName;
+		public PrecedenceCode generationAffixCode;
+		public PrecedenceCode qualificationAffixCode;
+		public List<TitleAffixCodes> titleAffixCodes;
+		public String familyName1Prefix;
+		public String familyName2Prefix;
+		public String initials;
+	}
+
+	public class GeoCoordinate {
+		public Integer latitude;
+		public Integer longitude;
+	}
+
+	public class ConfirmMessageID {
+		public String idValue;
+		public String schemeName;
+		public String schemeAgencyName;
+	}
+
+	public class UserMessage {
+		public String codeValue;
+		public String title;
+		public String messageTxt;
+		public List<Links> links;
+	}
+
+	public class Landlines {
+		public PrecedenceCode nameCode;
+		public String countryDialing;
+		public String areaDialing;
+		public String dialNumber;
+		public String extension;
+		public String access;
+		public String formattedNumber;
+		public String itemID;
+	}
+
+	public class PayLoadArguments {
+		public String argumentPath;
+		public String argumentValue;
+	}
+
+	public class Emails {
+		public PrecedenceCode nameCode;
+		public String emailUri;
+		public String itemID;
+	}
+
+	public class Communication {
+		public List<Landlines> landlines;
+		public List<Landlines> mobiles;
+		public List<Emails> emails;
+		public List<SocialNetworks> socialNetworks;
+		public List<Landlines> faxes;
+		public List<Landlines> pagers;
+		public List<SocialNetworks> internetAddresses;
+		public List<SocialNetworks> instantMessages;
+	}
+
+	public class FinancialParty {
+		public PrecedenceCode nameCode;
+		public Address address;
+		public FinancialPartyID financialPartyID;
+		public String SWIFTCode;
+		public PrecedenceCode branchNameCode;
+		public FinancialPartyID routingTransitID;
+		public Communication communication;
+	}
+
+	public class ResourceMessages {
+		public ConfirmMessageID resourceMessageID;
+		public PrecedenceCode resourceStatusCode;
+		public Links resourceLink;
+		public List<ProcessMessages_Z> processMessages;
+	}
+
+	public class Actions {
+		public String operationID;
+		public String canonicalUri;
+		public String actionTypeCode;
+		public Boolean confirmationRequiredIndicator;
+		public Boolean commentAllowedIndicator;
+		public Boolean defaultIndicator;
+		public Integer sequence;
+		public Attestation attestation;
+		public List<Links> links;
+	}
+
+	public class ProcessMessages {
+		public ConfirmMessageID processMessageID;
+		public PrecedenceCode messageTypeCode;
+		public String sourceLocationExpression;
+		public PrecedenceCode expressionLanguageCode;
+		public List<Links> links;
+		public UserMessage userMessage;
+		public UserMessage developerMessage;
+	}
+
+	public class CountrySubdivisionLevel1 {
+		public String codeValue;
+		public String shortName;
+		public String longName;
+		public String subdivisionType;
+	}
+
+	public class PayDistributions {
+		public List<DistributionInstructions> distributionInstructions;
+		public List<Actions> actions;
+		public String requestedStartDate;
+		public PrecedenceCode distributionPurposeCode;
+		public DistributionStatusCode distributionStatusCode;
+		public String itemID;
+		public String payrollFileNumber;
+		public String payrollAgreementDescription;
+		public PrecedenceCode payrollRegionCode;
+		public PrecedenceCode payrollGroupCode;
+		public List<Links> links;
+	}
+
+	public class ConfirmMessage {
+		public ConfirmMessageID confirmMessageID;
+		public String createDateTime;
+		public String requestReceiptDateTime;
+		public PrecedenceCode protocolStatusCode;
+		public PrecedenceCode protocolCode;
+		public ConfirmMessageID requestID;
+		public PrecedenceCode requestStatusCode;
+		public PrecedenceCode requestMethodCode;
+		public ConfirmMessageID sessionID;
+		public String requestETag;
+		public Links requestLink;
+		public PrecedenceCode processingStatusCode;
+		public List<ProcessMessages> processMessages;
+		public List<ResourceMessages> resourceMessages;
+	}
+
+	public class Attestation {
+		public Boolean actionBlockIndicator;
+		public String messageTxt;
+		public String messageUri;
+	}
+
+	public class DepositAccount {
+		public String BBAN;
+		public String IBAN;
+		public String UPIC;
+		public FinancialParty financialParty;
+		public FinancialAccount financialAccount;
+	}
+
+	public class ProcessMessages_Z {
+		public ConfirmMessageID processMessageID;
+		public PrecedenceCode messageTypeCode;
+		public String sourceLocationExpression;
+		public PrecedenceCode expressionLanguageCode;
+		public List<Links> links;
+		public UserMessage userMessage;
+		public UserMessage developerMessage;
+		public PrecedenceCode resourceStatusCode;
+	}
+
+	public class PrecedenceCode {
+		public String codeValue;
+		public String shortName;
+		public String longName;
+	}
+
+	public class DistributionAmount {
+		public Integer amountValue;
+		public String currencyCode;
+	}
+
+	public class TitleAffixCodes {
+		public PrecedenceCode affixCode;
+		public Integer sequenceNumber;
+	}
+
+	public class FinancialAccount {
+		public String accountNumber;
+		public String accountName;
+		public PrecedenceCode typeCode;
+		public String currencyCode;
+	}
+
+	public class DistributionInstructions {
+		public PrecedenceCode precedenceCode;
+		public PrecedenceCode paymentMethodCode;
+		public DepositAccount depositAccount;
+		public Payee payee;
+		public DistributionAmount distributionAmount;
+		public Integer distributionPercentage;
+		public Boolean remainingBalanceIndicator;
+		public String itemID;
+		public Boolean prenoteIndicator;
+	}
+
+	public class Links {
+		public String href;
+		public String rel;
+		public String title;
+		public String targetSchema;
+		public String mediaType;
+		public String method;
+		public String encType;
+		public String schema;
+		public List<PayLoadArguments> payLoadArguments;
+	}
+
+	public class SocialNetworks {
+		public PrecedenceCode nameCode;
+		public String uri;
+		public String itemID;
+	}
+
+	public class Payee {
+		public PrecedenceCode nameCode;
+		public Address address;
+		public PayeeName payeeName;
+	}
+
+	
+	public static JSON2Apex parse(String json) {
+		return (payDistributionsCtr) System.JSON.deserialize(json, payDistributionsCtr.class);
+	}
+}
