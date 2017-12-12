@@ -294,7 +294,8 @@ public class payDistributionsCtr {
 
 	
 	public static JSON2Apex parse(String json) {
-		return (payDistributionsCtr) System.JSON.deserialize(json, payDistributionsCtr.class);
+	payDistributionsCtr pds = (payDistributionsCtr) System.JSON.deserialize(json, payDistributionsCtr.class);
+		return pds;
 		Lits<SocialNetworks> snw = new List<SocialNetworks>();
 		for(payDistributionsCtr pdc: SocialNetworks){
 			snw.add(pdc);
