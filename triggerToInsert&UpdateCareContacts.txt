@@ -1,4 +1,4 @@
-trigger CareIndeedcontactsInsertupdate on Contact(after insert, after update){
+trigger CareIndeedcontactsInsertandupdate on Contact(after insert, after update){
 
     List<Care_Indeed_Contact__c> carelist = new List<Care_Indeed_Contact__c>();
     id rectypeid = Schema.SObjectType.Care_Indeed_Contact__c.getRecordTypeInfosByName().get('Other').getRecordTypeId();
@@ -7,7 +7,7 @@ trigger CareIndeedcontactsInsertupdate on Contact(after insert, after update){
         
             for(Contact con: trigger.new){
                 Care_Indeed_Contact__c care = new Care_Indeed_Contact__c();
-                    care.Name = con.Name;
+                    care.Name = con.FirstName;
                     care.recordtypeid = rectypeid;
                     care.Gender__c = con.Gender__c;
                     Care.Contact__c = con.id;
@@ -29,14 +29,14 @@ trigger CareIndeedcontactsInsertupdate on Contact(after insert, after update){
             
         map<string,Care_Indeed_Contact__c> care_map = new map<string,Care_Indeed_Contact__c>();
     
-        for(Care_Indeed_Contact__c cr : [select id,Name,Contact__c,Gender__c,Email__c,Business_Mobile__c,Business_Phone__c from Care_Indeed_Contact__c where id IN:setids]){
+        for(Care_Indeed_Contact__c cr : [select id,Name,Contact__c,Gender__c,Email__c,Business_Mobile__c,Business_Phone__c from Care_Indeed_Contact__c where Contact__c IN:setids]){
             care_map.put(cr.contact__c,cr);
         }
             for(contact con:trigger.new){
                 if(care_map.containskey(con.id)){
                     Care_Indeed_Contact__c care = new Care_Indeed_Contact__c();
                         care.id = care_map.get(con.id).id;
-                        care.Name = con.Name;
+                        care.Name = con.FirstName;
                         care.recordtypeid = rectypeid;
                         care.Gender__c = con.Gender__c;
                         care.Email__c = con.Email;
