@@ -1,0 +1,54 @@
+trigger CareIndeedcontactsInsertupdate on Contact(after insert, after update){
+
+    List<Care_Indeed_Contact__c> carelist = new List<Care_Indeed_Contact__c>();
+    id rectypeid = Schema.SObjectType.Care_Indeed_Contact__c.getRecordTypeInfosByName().get('Other').getRecordTypeId();
+    
+        if(trigger.isInsert){
+        
+            for(Contact con: trigger.new){
+                Care_Indeed_Contact__c care = new Care_Indeed_Contact__c();
+                    care.Name = con.Name;
+                    care.recordtypeid = rectypeid;
+                    care.Gender__c = con.Gender__c;
+                    Care.Contact__c = con.id;
+                    care.Email__c = con.Email;
+                    care.Business_Mobile__c = con.MobilePhone;
+                    care.Business_Phone__c = con.Phone;
+                    carelist.add(care);
+            }
+                if(carelist.size()>0)
+                 insert carelist;
+        }
+		if(trigger.isUpdate){
+    
+        Set<Id> setids = new set<Id>();
+        
+            for(Contact cc: trigger.new){
+                setids.add(cc.id);
+            }
+            
+        map<string,Care_Indeed_Contact__c> care_map = new map<string,Care_Indeed_Contact__c>();
+    
+        for(Care_Indeed_Contact__c cr : [select id,Name,Contact__c,Gender__c,Email__c,Business_Mobile__c,Business_Phone__c from Care_Indeed_Contact__c where id IN:setids]){
+            care_map.put(cr.contact__c,cr);
+        }
+            for(contact con:trigger.new){
+                if(care_map.containskey(con.id)){
+                    Care_Indeed_Contact__c care = new Care_Indeed_Contact__c();
+                        care.id = care_map.get(con.id).id;
+                        care.Name = con.Name;
+                        care.recordtypeid = rectypeid;
+                        care.Gender__c = con.Gender__c;
+                        care.Email__c = con.Email;
+                        care.Business_Mobile__c = con.MobilePhone;
+                        care.Business_Phone__c = con.Phone;
+                    carelist.add(care);
+    
+                }
+    
+            }
+                if(carelist.size()>0)
+                update carelist;
+    }
+    
+    }
