@@ -1,3 +1,11 @@
+/* 
+Company: Mold-Tek
+Author: Amarendar Manikonda
+Created Date: 13/12/2017
+Remarks:
+
+*/
+
 trigger CareIndeedcontactsInsertandupdate on Contact(after insert, after update){
 
     List<Care_Indeed_Contact__c> carelist = new List<Care_Indeed_Contact__c>();
@@ -48,7 +56,7 @@ trigger CareIndeedcontactsInsertandupdate on Contact(after insert, after update)
     
             }
                 if(carelist.size()>0)
-                update carelist;
+					update carelist;
     }
     
     }

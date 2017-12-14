@@ -1,0 +1,51 @@
+/*
+
+Company: Mold-Tek
+Author: Amarendar Manikonda
+Date: 14/12/2017
+Remarks: To get the access token
+
+*/
+
+public class CareIndeedWebServiceHelper {
+ 
+  public static string getAccessToken (){
+      
+      CareIndeed_API_Auth_Details__mdt careApi = [SELECT Client_id__c, Client_secret__c, End_Point_Url__c, Authorization__c from CareIndeed_API_Auth_Details__mdt where label='CareIndeedAPI'];
+
+        HttpRequest req = new HttpRequest();
+        HttpResponse res = new HttpResponse();
+        Http http = new Http();
+        req.setHeader('Content-Type', 'application/json;charset=UTF-8');
+		req.setHeader('Authorization', 'careApi.Authorization__c');
+		req.setHeader('client_id','careApi.Client_id__c');
+		req.setHeader('client_secret','careApi.Client_secret__c');
+		req.setHeader('grant_type','password');
+        req.setMethod('POST');
+        req.setEndpoint(careApi.End_Point_Url__c);
+        
+        req.setTimeout(120000);
+
+        try {
+            res = http.send(req);
+            System.debug('res...test'+res);
+        } catch (exception ex) {
+            
+        }
+        system.debug('res.getBody(): ' + res.getBody());
+        system.debug('res.getStatusCode(): ' + res.getStatusCode());
+        if (res.getStatusCode() == 200) {
+            System.debug('@@@res@@'+res);
+            map<string, object> mapresult = (Map<String, Object>)JSON.deserializeUntyped(res.getBody());
+            System.debug('@@@mapresult@@'+mapresult);
+            System.debug('@@@access token@@'+mapresult.get('access_token'));
+         return string.valueof(mapresult.get('access_token')) ; 
+        }
+      else{
+          
+         return null; 
+      }
+            
+    }
+	
+}
