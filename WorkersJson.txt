@@ -1,0 +1,276 @@
+public class WorkersJson {
+    
+    public Workers[] workers;
+    public Address[] address;
+    public Landlines[] landlines;
+    public StatusCode[] statusCode;
+    public OccupationalClassifications[] occupationalClassifications;
+	public WageLawCoverage[] wageLawCoverage;
+	public ReportsTo[] reportsTo;
+	public Emails[] emails;
+	public SocialInsurancePrograms[] socialInsurancePrograms;
+	public LegalName[] legalName;
+	public Rate[] rate;
+	public GovernmentIDs[] governmentIDs;
+	public Person[] person;
+	public NameCode[] nameCode;
+	public WorkerGroups[] workerGroups;
+	public WorkerID[] workerID;
+	public HomeWorkLocation[] homeWorkLocation;
+	public AdditionalRemunerations[] additionalRemunerations;
+	public WorkAssignments[] workAssignments;
+	public WorkerStatus[] workerStatus;
+	public LegalAddress[] legalAddress;
+	public ReportsToWorkerName[] reportsToWorkerName;
+	public Communication[] communication;
+	public CountrySubdivisionLevel1[] countrySubdivisionLevel1;
+	public WorkerDates[] workerDates;
+	public AssignmentStatus[] assignmentStatus;
+	public Mobiles[] mobiles;
+
+	public class Address {
+		public String lineOne;
+		public String cityName;
+		public CountrySubdivisionLevel1 countrySubdivisionLevel1;
+		public String countryCode;
+		public String postalCode;
+	}
+
+
+	public class Landlines {
+		public NameCode nameCode;
+		public String countryDialing;
+		public String areaDialing;
+		public String dialNumber;
+		public String access;
+		public String formattedNumber;
+		public String itemID;
+	}
+
+	public class StatusCode {
+		public String codeValue;
+		public String shortName;
+	}
+
+	public class OccupationalClassifications {
+		public NameCode nameCode;
+		public NameCode classificationCode;
+	}
+
+	public class WageLawCoverage {
+		public NameCode wageLawNameCode;
+		public NameCode coverageCode;
+	}
+
+	public class ReportsTo {
+		public String associateOID;
+		public WorkerID workerID;
+		public ReportsToWorkerName reportsToWorkerName;
+		public String positionID;
+	}
+
+	public class Emails {
+		public NameCode nameCode;
+		public String emailUri;
+	}
+
+	public class SocialInsurancePrograms {
+		public NameCode nameCode;
+		public Boolean coveredIndicator;
+	}
+
+	public class LegalName {
+		public String givenName;
+		public String familyName1;
+		public String formattedName;
+		public String middleName;
+	}
+	
+	public class Mobiles{
+	    public NameCode nameCode;
+	    public String countryDialing;
+		public String areaDialing;
+		public String dialNumber;
+		public String access;
+		public String formattedNumber;
+		public String itemID;
+	    
+	}
+
+	public class Rate {
+		public Integer amountValue;
+		public String currencyCode;
+	}
+
+	public class GovernmentIDs {
+		public String itemID;
+		public String idValue;
+		public NameCode nameCode;
+		public String countryCode;
+	}
+
+	public class Workers {
+		public String associateOID;
+		public WorkerID workerID;
+		public Person person;
+		public WorkerDates workerDates;
+		public WorkerStatus workerStatus;
+		public List<WorkAssignments> workAssignments;
+		
+	}
+
+	public class Person {
+		public List<GovernmentIDs> governmentIDs;
+		public LegalName legalName;
+		public String birthDate;
+		public LegalAddress legalAddress;
+		public Communication communication;
+		public GenderCode genderCode;
+		public Boolean disabledIndicator;
+		public RaceCode raceCode;
+	}
+	
+	public class RaceCode{
+	    public String codeValue;
+	    public String shortName;
+	}
+	public class GenderCode{
+	    public String codeValue;
+		public String shortName;  
+	}
+
+	public class NameCode {
+		public String codeValue;
+		public String longName;
+		public String shortName;
+	}
+
+	public class JSON2Apex {
+		public List<Workers> workers;
+	}
+
+	public class WorkerGroups {
+		public NameCode nameCode;
+		public GroupCode groupCode;
+	}
+	
+	public class GroupCode{
+	    public String codeValue;
+		public String longName; 
+	}
+
+	public class WorkerID {
+		public String idValue;
+	}
+
+	public class HomeWorkLocation {
+		public Address address;
+		public NameCode nameCode;
+		public String countryCode;
+		public String postalCode;
+		public PayCycleCode payCycleCode;
+		public String payrollGroupCode;
+		public String payrollFileNumber;
+		public Boolean managementPositionIndicator;
+		
+	}
+	
+	public class PayCycleCode{
+	    public String codeValue;
+	    public String shortName;
+	    
+	}
+
+	public class AdditionalRemunerations {
+		public String itemID;
+		public String effectiveDate;
+		public NameCode nameCode;
+		public Rate rate;
+	}
+
+	public class WorkAssignments {
+		public String itemID;
+		public Boolean primaryIndicator;
+		public String hireDate;
+		public String actualStartDate;
+		public String terminationDate;
+		public AssignmentStatus assignmentStatus;
+		public WorkerTypeCode workerTypeCode;
+		public List<WorkerGroups> workerGroups;
+		public String positionID;
+		public List<HomeOrganizationalUnits> homeOrganizationalUnits;
+		public List<AssignedOrganizationalUnits> assignedOrganizationalUnits;
+		public HomeWorkLocation homeWorkLocation;
+		public PayCycleCode payCycleCode;
+		public String payrollGroupCode;
+		public String payrollFileNumber;
+		public Boolean managementPositionIndicator;
+		public ReasonCode reasonCode;
+	}
+	
+	public class AssignedOrganizationalUnits{
+	    public NameCode nameCode;
+	    public TypeCode typeCode;
+	}
+	
+	public class HomeOrganizationalUnits{
+	    public NameCode nameCode;
+	    public TypeCode typeCode;
+	}
+	
+	public class TypeCode{
+	    public String codeValue;
+	    public String shortName;
+	}
+	
+	public class WorkerTypeCode{
+	    public String codeValue;
+	    public String shortName;
+	}
+	
+	public class ReasonCode{
+	    public String codeValue;
+	    public String longName;
+	    
+	}
+
+	public class WorkerStatus {
+		public StatusCode statusCode;
+	}
+
+	public class LegalAddress {
+		public NameCode nameCode;
+		public String lineOne;
+		public String cityName;
+		public CountrySubdivisionLevel1 countrySubdivisionLevel1;
+		public String countryCode;
+		public String postalCode;
+	}
+
+	public class ReportsToWorkerName {
+		public String formattedName;
+	}
+
+	public class Communication {
+		public List<Landlines> landlines;
+		public Mobiles mobiles;
+	}
+
+	public class CountrySubdivisionLevel1 {
+		public String subdivisionType;
+		public String codeValue;
+		public String shortName;
+	}
+
+	public class WorkerDates {
+		public String originalHireDate;
+		public String terminationDate;
+	}
+
+	public class AssignmentStatus {
+		public StatusCode statusCode;
+		public ReasonCode reasonCode;
+	}
+
+
+}
