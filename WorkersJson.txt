@@ -1,345 +1,345 @@
 public class WorkersJson {
     
-    @AuraEnabled public Workers[] workers;
-    @AuraEnabled public Address[] address;
-    @AuraEnabled public Landlines[] landlines;
-    @AuraEnabled public StatusCode[] statusCode;
-    @AuraEnabled public OccupationalClassifications[] occupationalClassifications;
-	@AuraEnabled public WageLawCoverage[] wageLawCoverage;
-	@AuraEnabled public ReportsTo[] reportsTo;
-	@AuraEnabled public Emails[] emails;
-	@AuraEnabled public SocialInsurancePrograms[] socialInsurancePrograms;
-	@AuraEnabled public LegalName[] legalName;
-	@AuraEnabled public Rate[] rate;
-	@AuraEnabled public GovernmentIDs[] governmentIDs;
-	@AuraEnabled public Person[] person;
-	@AuraEnabled public NameCode[] nameCode;
-	@AuraEnabled public WorkerGroups[] workerGroups;
-	@AuraEnabled public WorkerID[] workerID;
-	@AuraEnabled public HomeWorkLocation[] homeWorkLocation;
-	@AuraEnabled public AdditionalRemunerations[] additionalRemunerations;
-	@AuraEnabled public WorkAssignments[] workAssignments;
-	@AuraEnabled public WorkerStatus[] workerStatus;
-	@AuraEnabled public LegalAddress[] legalAddress;
-	@AuraEnabled public ReportsToWorkerName[] reportsToWorkerName;
-	@AuraEnabled public Communication[] communication;
-	@AuraEnabled public CountrySubdivisionLevel1[] countrySubdivisionLevel1;
-	@AuraEnabled public WorkerDates[] workerDates;
-	@AuraEnabled public AssignmentStatus[] assignmentStatus;
-	@AuraEnabled public Mobiles[] mobiles;
-	@AuraEnabled public ClassificationCode[] classificationCode;
-	@AuraEnabled public MaritalStatusCode[] maritalStatusCode;
-	@AuraEnabled public RaceCode[] raceCode;
-	@AuraEnabled public GenderCode[] genderCode;
-	@AuraEnabled public GroupCode[] groupCode;
-	@AuraEnabled public SchemeCode[] schemeCode;
-	@AuraEnabled public PayCycleCode[] payCycleCode;
-	@AuraEnabled public WageLawNameCode[] wageLawNameCode;
-	@AuraEnabled public CoverageCode[] coverageCode;
-	@AuraEnabled public JobCode[] jobCode;
-	@AuraEnabled public AssignedOrganizationalUnits[] assignedOrganizationalUnits;
-	@AuraEnabled public HomeOrganizationalUnits[] homeOrganizationalUnits;
-	@AuraEnabled public TypeCode[] typeCode;
-	@AuraEnabled public WorkerTypeCode[] workerTypeCode;
-	@AuraEnabled public ReasonCode[] reasonCode;
-	@AuraEnabled public CountrySubdivisionLevel2[] countrySubdivisionLevel2;
+    @AuraEnabled public Workers[] workers{get;set;}
+    @AuraEnabled public Address[] address{get;set;}
+    @AuraEnabled public Landlines[] landlines{get;set;}
+    @AuraEnabled public StatusCode[] statusCode{get;set;}
+    @AuraEnabled public OccupationalClassifications[] occupationalClassifications{get;set;}
+	@AuraEnabled public WageLawCoverage[] wageLawCoverage{get;set;}
+	@AuraEnabled public ReportsTo[] reportsTo{get;set;}
+	@AuraEnabled public Emails[] emails{get;set;}
+	@AuraEnabled public SocialInsurancePrograms[] socialInsurancePrograms{get;set;}
+	@AuraEnabled public LegalName[] legalName{get;set;}
+	@AuraEnabled public Rate[] rate{get;set;}
+	@AuraEnabled public GovernmentIDs[] governmentIDs{get;set;}
+	@AuraEnabled public Person[] person{get;set;}
+	@AuraEnabled public NameCode[] nameCode{get;set;}
+	@AuraEnabled public WorkerGroups[] workerGroups{get;set;}
+	@AuraEnabled public WorkerID[] workerID{get;set;}
+	@AuraEnabled public HomeWorkLocation[] homeWorkLocation{get;set;}
+	@AuraEnabled public AdditionalRemunerations[] additionalRemunerations{get;set;}
+	@AuraEnabled public WorkAssignments[] workAssignments{get;set;}
+	@AuraEnabled public WorkerStatus[] workerStatus{get;set;}
+	@AuraEnabled public LegalAddress[] legalAddress{get;set;}
+	@AuraEnabled public ReportsToWorkerName[] reportsToWorkerName{get;set;}
+	@AuraEnabled public Communication[] communication{get;set;}
+	@AuraEnabled public CountrySubdivisionLevel1[] countrySubdivisionLevel1{get;set;}
+	@AuraEnabled public WorkerDates[] workerDates{get;set;}
+	@AuraEnabled public AssignmentStatus[] assignmentStatus{get;set;}
+	@AuraEnabled public Mobiles[] mobiles{get;set;}
+	@AuraEnabled public ClassificationCode[] classificationCode{get;set;}
+	@AuraEnabled public MaritalStatusCode[] maritalStatusCode{get;set;}
+	@AuraEnabled public RaceCode[] raceCode{get;set;}
+	@AuraEnabled public GenderCode[] genderCode{get;set;}
+	@AuraEnabled public GroupCode[] groupCode{get;set;}
+	@AuraEnabled public SchemeCode[] schemeCode{get;set;}
+	@AuraEnabled public PayCycleCode[] payCycleCode{get;set;}
+	@AuraEnabled public WageLawNameCode[] wageLawNameCode{get;set;}
+	@AuraEnabled public CoverageCode[] coverageCode{get;set;}
+	@AuraEnabled public JobCode[] jobCode{get;set;}
+	@AuraEnabled public AssignedOrganizationalUnits[] assignedOrganizationalUnits{get;set;}
+	@AuraEnabled public HomeOrganizationalUnits[] homeOrganizationalUnits{get;set;}
+	@AuraEnabled public TypeCode[] typeCode{get;set;}
+	@AuraEnabled public WorkerTypeCode[] workerTypeCode{get;set;}
+	@AuraEnabled public ReasonCode[] reasonCode{get;set;}
+	@AuraEnabled public CountrySubdivisionLevel2[] countrySubdivisionLevel2{get;set;}
 	
 
 	 public class JSON2Apex {
-		@AuraEnabled  public List<Workers> workers;
+		@AuraEnabled  public List<Workers> workers{get;set;}
 	}
 	
 	 public class Address {
-		@AuraEnabled  public String lineOne;
-		@AuraEnabled  public String cityName;
-		@AuraEnabled  public CountrySubdivisionLevel1 countrySubdivisionLevel1;
-		@AuraEnabled  public String countryCode;
-		@AuraEnabled  public String postalCode;
+		@AuraEnabled  public String lineOne{get;set;}
+		@AuraEnabled  public String cityName{get;set;}
+		@AuraEnabled  public CountrySubdivisionLevel1 countrySubdivisionLevel1{get;set;}
+		@AuraEnabled  public String countryCode{get;set;}
+		@AuraEnabled  public String postalCode{get;set;}
 	}
 
 
 	 public class Landlines {
-		@AuraEnabled  public NameCode nameCode;
-		@AuraEnabled  public String countryDialing;
-		@AuraEnabled  public String areaDialing;
-		@AuraEnabled  public String dialNumber;
-		@AuraEnabled  public String access;
-		@AuraEnabled  public String formattedNumber;
-		@AuraEnabled  public String itemID;
+		@AuraEnabled  public NameCode nameCode{get;set;}
+		@AuraEnabled  public String countryDialing{get;set;}
+		@AuraEnabled  public String areaDialing{get;set;}
+		@AuraEnabled  public String dialNumber{get;set;}
+		@AuraEnabled  public String access{get;set;}
+		@AuraEnabled  public String formattedNumber{get;set;}
+		@AuraEnabled  public String itemID{get;set;}
 	}
 
 	 public class StatusCode {
-		@AuraEnabled public String codeValue;
-		@AuraEnabled public String shortName;
+		@AuraEnabled public String codeValue{get;set;}
+		@AuraEnabled public String shortName{get;set;}
 	}
 
 	 public class OccupationalClassifications {
-		@AuraEnabled public NameCode nameCode;
-		@AuraEnabled public ClassificationCode classificationCode;
+		@AuraEnabled public NameCode nameCode{get;set;}
+		@AuraEnabled public ClassificationCode classificationCode{get;set;}
 	}
 	 public class ClassificationCode{
-	    @AuraEnabled public String codeValue;
-		@AuraEnabled public String shortName;
+	    @AuraEnabled public String codeValue{get;set;}
+		@AuraEnabled public String shortName{get;set;}
 	}
 
 	 public class WageLawCoverage{
-	    @AuraEnabled public WageLawNameCode wageLawNameCode;
-	    @AuraEnabled public CoverageCode coverageCode;
+	    @AuraEnabled public WageLawNameCode wageLawNameCode{get;set;}
+	    @AuraEnabled public CoverageCode coverageCode{get;set;}
 	}
 
 	 public class ReportsTo {
-		@AuraEnabled public String associateOID;
-		@AuraEnabled public WorkerID workerID;
-		@AuraEnabled public ReportsToWorkerName reportsToWorkerName;
-		@AuraEnabled public String positionID;
+		@AuraEnabled public String associateOID{get;set;}
+		@AuraEnabled public WorkerID workerID{get;set;}
+		@AuraEnabled public ReportsToWorkerName reportsToWorkerName{get;set;}
+		@AuraEnabled public String positionID{get;set;}
 	}
 
 	 public class Emails {
-		@AuraEnabled public NameCode nameCode;
-		@AuraEnabled public String emailUri;
+		@AuraEnabled public NameCode nameCode{get;set;}
+		@AuraEnabled public String emailUri{get;set;}
 	}
 
 	 public class SocialInsurancePrograms {
-		@AuraEnabled public NameCode nameCode;
-		@AuraEnabled public Boolean coveredIndicator;
+		@AuraEnabled public NameCode nameCode{get;set;}
+		@AuraEnabled public Boolean coveredIndicator{get;set;}
 	}
 
 	 public class LegalName {
-		@AuraEnabled public String givenName;
-		@AuraEnabled public String familyName1;
-		@AuraEnabled public String formattedName;
-		@AuraEnabled public String middleName;
+		@AuraEnabled public String givenName{get;set;}
+		@AuraEnabled public String familyName1{get;set;}
+		@AuraEnabled public String formattedName{get;set;}
+		@AuraEnabled public String middleName{get;set;}
 	}
 	 public class Mobiles{
-	    @AuraEnabled public NameCode nameCode;
-	    @AuraEnabled public String countryDialing;
-		@AuraEnabled public String areaDialing;
-		@AuraEnabled public String dialNumber;
-		@AuraEnabled public String access;
-		@AuraEnabled public String formattedNumber;
-		@AuraEnabled public String itemID;
+	    @AuraEnabled public NameCode nameCode{get;set;}
+	    @AuraEnabled public String countryDialing{get;set;}
+		@AuraEnabled public String areaDialing{get;set;}
+		@AuraEnabled public String dialNumber{get;set;}
+		@AuraEnabled public String access{get;set;}
+		@AuraEnabled public String formattedNumber{get;set;}
+		@AuraEnabled public String itemID{get;set;}
 	    
 	}
 
 	 public class Rate {
-		@AuraEnabled public Decimal amountValue;
-		@AuraEnabled public String currencyCode;
+		@AuraEnabled public Decimal amountValue{get;set;}
+		@AuraEnabled public String currencyCode{get;set;}
 	}
 
 	 public class GovernmentIDs {
-		@AuraEnabled public String itemID;
-		@AuraEnabled public String idValue;
-		@AuraEnabled public NameCode nameCode;
-		@AuraEnabled public String countryCode;
-		@AuraEnabled public StatusCode statusCode;
+		@AuraEnabled public String itemID{get;set;}
+		@AuraEnabled public String idValue{get;set;}
+		@AuraEnabled public NameCode nameCode{get;set;}
+		@AuraEnabled public String countryCode{get;set;}
+		@AuraEnabled public StatusCode statusCode{get;set;}
 	}
 
 	 public class Workers {
-		@AuraEnabled public String associateOID;
-		@AuraEnabled public WorkerID workerID;
-		@AuraEnabled public Person person;
-		@AuraEnabled public WorkerDates workerDates;
-		@AuraEnabled public WorkerStatus workerStatus;
-		@AuraEnabled public List<WorkAssignments> workAssignments;
+		@AuraEnabled public String associateOID{get;set;}
+		@AuraEnabled public WorkerID workerID{get;set;}
+		@AuraEnabled public Person person{get;set;}
+		@AuraEnabled public WorkerDates workerDates{get;set;}
+		@AuraEnabled public WorkerStatus workerStatus{get;set;}
+		@AuraEnabled public List<WorkAssignments> workAssignments{get;set;}
 		
 	}
 
 	 public class Person {
-		@AuraEnabled public List<GovernmentIDs> governmentIDs;
-		@AuraEnabled public LegalName legalName;
-		@AuraEnabled public String birthDate;
-		@AuraEnabled public LegalAddress legalAddress;
-		@AuraEnabled public Communication communication;
-		@AuraEnabled public GenderCode genderCode;
-		@AuraEnabled public Boolean disabledIndicator;
-		@AuraEnabled public RaceCode raceCode;
-		@AuraEnabled public MaritalStatusCode maritalStatusCode;
-		@AuraEnabled public List<SocialInsurancePrograms> socialInsurancePrograms;
-		@AuraEnabled public Boolean tobaccoUserIndicator;
+		@AuraEnabled public List<GovernmentIDs> governmentIDs{get;set;}
+		@AuraEnabled public LegalName legalName{get;set;}
+		@AuraEnabled public String birthDate{get;set;}
+		@AuraEnabled public LegalAddress legalAddress{get;set;}
+		@AuraEnabled public Communication communication{get;set;}
+		@AuraEnabled public GenderCode genderCode{get;set;}
+		@AuraEnabled public Boolean disabledIndicator{get;set;}
+		@AuraEnabled public RaceCode raceCode{get;set;}
+		@AuraEnabled public MaritalStatusCode maritalStatusCode{get;set;}
+		@AuraEnabled public List<SocialInsurancePrograms> socialInsurancePrograms{get;set;}
+		@AuraEnabled public Boolean tobaccoUserIndicator{get;set;}
 		
 	}
 	
 	 public class MaritalStatusCode{
-	    @AuraEnabled public String codeValue;
-	    @AuraEnabled public String shortName;
+	    @AuraEnabled public String codeValue{get;set;}
+	    @AuraEnabled public String shortName{get;set;}
 	}
 	
 	 public class RaceCode{
-	    @AuraEnabled public String codeValue;
-	    @AuraEnabled public String shortName;
+	    @AuraEnabled public String codeValue{get;set;}
+	    @AuraEnabled public String shortName{get;set;}
 	}
 	 public class GenderCode{
-	    @AuraEnabled public String codeValue;
-		@AuraEnabled public String shortName;  
+	    @AuraEnabled public String codeValue{get;set;}
+		@AuraEnabled public String shortName{get;set;}  
 	}
 
 	 public class NameCode {
-		@AuraEnabled public String codeValue;
-		@AuraEnabled public String longName;
-		@AuraEnabled public String shortName;
+		@AuraEnabled public String codeValue{get;set;}
+		@AuraEnabled public String longName{get;set;}
+		@AuraEnabled public String shortName{get;set;}
 	}
 
 	 public class WorkerGroups {
-		@AuraEnabled public NameCode nameCode;
-		@AuraEnabled public GroupCode groupCode;
+		@AuraEnabled public NameCode nameCode{get;set;}
+		@AuraEnabled public GroupCode groupCode{get;set;}
 	}
 	
 	 public class GroupCode{
-	    @AuraEnabled public String codeValue;
-		@AuraEnabled public String longName; 
+	    @AuraEnabled public String codeValue{get;set;}
+		@AuraEnabled public String longName{get;set;} 
 	}
 
 	 public class WorkerID {
-		@AuraEnabled public String idValue;
-		@AuraEnabled public SchemeCode schemeCode;
+		@AuraEnabled public String idValue{get;set;}
+		@AuraEnabled public SchemeCode schemeCode{get;set;}
 	}
 	
 	 public class SchemeCode{
-	    @AuraEnabled public String codeValue;
-		@AuraEnabled public String shortName;
+	    @AuraEnabled public String codeValue{get;set;}
+		@AuraEnabled public String shortName{get;set;}
 	}
 
 	 public class HomeWorkLocation {
-		@AuraEnabled public Address address;
-		@AuraEnabled public NameCode nameCode;
-		@AuraEnabled public String countryCode;
-		@AuraEnabled public String postalCode;
-		@AuraEnabled public PayCycleCode payCycleCode;
-		@AuraEnabled public String payrollGroupCode;
-		@AuraEnabled public String payrollFileNumber;
-		@AuraEnabled public Boolean managementPositionIndicator;
+		@AuraEnabled public Address address{get;set;}
+		@AuraEnabled public NameCode nameCode{get;set;}
+		@AuraEnabled public String countryCode{get;set;}
+		@AuraEnabled public String postalCode{get;set;}
+		@AuraEnabled public PayCycleCode payCycleCode{get;set;}
+		@AuraEnabled public String payrollGroupCode{get;set;}
+		@AuraEnabled public String payrollFileNumber{get;set;}
+		@AuraEnabled public Boolean managementPositionIndicator{get;set;}
 		
 	}
 	
 	 public class PayCycleCode{
-	    @AuraEnabled public String codeValue;
-	    @AuraEnabled public String shortName;
+	    @AuraEnabled public String codeValue{get;set;}
+	    @AuraEnabled public String shortName{get;set;}
 	    
 	}
 
 	 public class AdditionalRemunerations {
-		@AuraEnabled public String itemID;
-		@AuraEnabled public String effectiveDate;
-		@AuraEnabled public NameCode nameCode;
-		@AuraEnabled public Rate rate;
+		@AuraEnabled public String itemID{get;set;}
+		@AuraEnabled public String effectiveDate{get;set;}
+		@AuraEnabled public NameCode nameCode{get;set;}
+		@AuraEnabled public Rate rate{get;set;}
 	}
 
 	 public class WorkAssignments {
-		@AuraEnabled public String itemID;
-		@AuraEnabled public Boolean primaryIndicator;
-		@AuraEnabled public String hireDate;
-		@AuraEnabled public String actualStartDate;
-		@AuraEnabled public String terminationDate;
-		@AuraEnabled public AssignmentStatus assignmentStatus;
-		@AuraEnabled public WorkerTypeCode workerTypeCode;
-		@AuraEnabled public List<WorkerGroups> workerGroups;
-		@AuraEnabled public String positionID;
-		@AuraEnabled public List<HomeOrganizationalUnits> homeOrganizationalUnits;
-		@AuraEnabled public List<AssignedOrganizationalUnits> assignedOrganizationalUnits;
-		@AuraEnabled public HomeWorkLocation homeWorkLocation;
-		@AuraEnabled public PayCycleCode payCycleCode;
-		@AuraEnabled public String payrollGroupCode;
-		@AuraEnabled public String payrollFileNumber;
-		@AuraEnabled public Boolean managementPositionIndicator;
-		@AuraEnabled public ReasonCode reasonCode;
-		@AuraEnabled public JobCode jobCode;
-		@AuraEnabled public String jobTitle;
-		@AuraEnabled public List<OccupationalClassifications> occupationalClassifications;
-		@AuraEnabled public WageLawCoverage wageLawCoverage;
-		@AuraEnabled public List<ReportsTo> reportsTo;
-		@AuraEnabled public List<AdditionalRemunerations> additionalRemunerations;
+		@AuraEnabled public String itemID{get;set;}
+		@AuraEnabled public Boolean primaryIndicator{get;set;}
+		@AuraEnabled public String hireDate{get;set;}
+		@AuraEnabled public String actualStartDate{get;set;}
+		@AuraEnabled public String terminationDate{get;set;}
+		@AuraEnabled public AssignmentStatus assignmentStatus{get;set;}
+		@AuraEnabled public WorkerTypeCode workerTypeCode{get;set;}
+		@AuraEnabled public List<WorkerGroups> workerGroups{get;set;}
+		@AuraEnabled public String positionID{get;set;}
+		@AuraEnabled public List<HomeOrganizationalUnits> homeOrganizationalUnits{get;set;}
+		@AuraEnabled public List<AssignedOrganizationalUnits> assignedOrganizationalUnits{get;set;}
+		@AuraEnabled public HomeWorkLocation homeWorkLocation{get;set;}
+		@AuraEnabled public PayCycleCode payCycleCode{get;set;}
+		@AuraEnabled public String payrollGroupCode{get;set;}
+		@AuraEnabled public String payrollFileNumber{get;set;}
+		@AuraEnabled public Boolean managementPositionIndicator{get;set;}
+		@AuraEnabled public ReasonCode reasonCode{get;set;}
+		@AuraEnabled public JobCode jobCode{get;set;}
+		@AuraEnabled public String jobTitle{get;set;}
+		@AuraEnabled public List<OccupationalClassifications> occupationalClassifications{get;set;}
+		@AuraEnabled public WageLawCoverage wageLawCoverage{get;set;}
+		@AuraEnabled public List<ReportsTo> reportsTo{get;set;}
+		@AuraEnabled public List<AdditionalRemunerations> additionalRemunerations{get;set;}
 	}
 	
 	
 	 public class WageLawNameCode{
-	    @AuraEnabled public String codeValue;
-	    @AuraEnabled public String shortName;
+	    @AuraEnabled public String codeValue{get;set;}
+	    @AuraEnabled public String shortName{get;set;}
 	}
 	
 	 public class CoverageCode{
-	    @AuraEnabled public String codeValue;
-	    @AuraEnabled public String shortName;
+	    @AuraEnabled public String codeValue{get;set;}
+	    @AuraEnabled public String shortName{get;set;}
 	}
 	
 	 public class JobCode{
-	    @AuraEnabled public String codeValue;
-	    @AuraEnabled public String shortName;
-	    @AuraEnabled public String longName;
+	    @AuraEnabled public String codeValue{get;set;}
+	    @AuraEnabled public String shortName{get;set;}
+	    @AuraEnabled public String longName{get;set;}
 	}
 	
 	 public class AssignedOrganizationalUnits{
-	    @AuraEnabled public NameCode nameCode;
-	    @AuraEnabled public TypeCode typeCode;
+	    @AuraEnabled public NameCode nameCode{get;set;}
+	    @AuraEnabled public TypeCode typeCode{get;set;}
 	}
 	
 	 public class HomeOrganizationalUnits{
-	    @AuraEnabled public NameCode nameCode;
-	    @AuraEnabled public TypeCode typeCode;
+	    @AuraEnabled public NameCode nameCode{get;set;}
+	    @AuraEnabled public TypeCode typeCode{get;set;}
 	}
 	
 	 public class TypeCode{
-	    @AuraEnabled public String codeValue;
-	    @AuraEnabled public String shortName;
+	    @AuraEnabled public String codeValue{get;set;}
+	    @AuraEnabled public String shortName{get;set;}
 	}
 	
 	 public class WorkerTypeCode{
-	    @AuraEnabled public String codeValue;
-	    @AuraEnabled public String shortName;
-	    @AuraEnabled public String longName;
+	    @AuraEnabled public String codeValue{get;set;}
+	    @AuraEnabled public String shortName{get;set;}
+	    @AuraEnabled public String longName{get;set;}
 	}
 	
 	 public class ReasonCode{
-	    @AuraEnabled public String codeValue;
-	    @AuraEnabled public String longName;
+	    @AuraEnabled public String codeValue{get;set;}
+	    @AuraEnabled public String longName{get;set;}
 	    
 	}
 
 	 public class WorkerStatus {
-		@AuraEnabled public StatusCode statusCode;
+		@AuraEnabled public StatusCode statusCode{get;set;}
 	}
 
 	 public class LegalAddress {
-		@AuraEnabled public NameCode nameCode;
-		@AuraEnabled public String lineOne;
-		@AuraEnabled public String cityName;
-		@AuraEnabled public CountrySubdivisionLevel1 countrySubdivisionLevel1;
-		@AuraEnabled public String countryCode;
-		@AuraEnabled public String postalCode;
-		@AuraEnabled public String lineTwo;
-		@AuraEnabled public CountrySubdivisionLevel2 countrySubdivisionLevel2;
+		@AuraEnabled public NameCode nameCode{get;set;}
+		@AuraEnabled public String lineOne{get;set;}
+		@AuraEnabled public String cityName{get;set;}
+		@AuraEnabled public CountrySubdivisionLevel1 countrySubdivisionLevel1{get;set;}
+		@AuraEnabled public String countryCode{get;set;}
+		@AuraEnabled public String postalCode{get;set;}
+		@AuraEnabled public String lineTwo{get;set;}
+		@AuraEnabled public CountrySubdivisionLevel2 countrySubdivisionLevel2{get;set;}
 	}
 
 	 public class ReportsToWorkerName {
-		@AuraEnabled public String formattedName;
+		@AuraEnabled public String formattedName{get;set;}
 	}
 
 	 public class Communication {
-		@AuraEnabled public List<Landlines> landlines;
-		@AuraEnabled public List<Mobiles> mobiles;
-		@AuraEnabled public List<Emails> emails;
+		@AuraEnabled public List<Landlines> landlines{get;set;}
+		@AuraEnabled public List<Mobiles> mobiles{get;set;}
+		@AuraEnabled public List<Emails> emails{get;set;}
 	}
 
 	 public class CountrySubdivisionLevel1 {
-		@AuraEnabled public String subdivisionType;
-		@AuraEnabled public String codeValue;
-		@AuraEnabled public String shortName;
+		@AuraEnabled public String subdivisionType{get;set;}
+		@AuraEnabled public String codeValue{get;set;}
+		@AuraEnabled public String shortName{get;set;}
 	}
 	
 	 public class CountrySubdivisionLevel2 {
-		@AuraEnabled public String subdivisionType;
-		@AuraEnabled public String codeValue;
-		@AuraEnabled public String shortName;
+		@AuraEnabled public String subdivisionType{get;set;}
+		@AuraEnabled public String codeValue{get;set;}
+		@AuraEnabled public String shortName{get;set;}
 	}
 
 	 public class WorkerDates {
-		@AuraEnabled public String originalHireDate;
-		@AuraEnabled public String terminationDate;
-		@AuraEnabled public String rehireDate;
+		@AuraEnabled public String originalHireDate{get;set;}
+		@AuraEnabled public String terminationDate{get;set;}
+		@AuraEnabled public String rehireDate{get;set;}
 	}
 
 	 public class AssignmentStatus {
-		@AuraEnabled public StatusCode statusCode;
-		@AuraEnabled public ReasonCode reasonCode;
+		@AuraEnabled public StatusCode statusCode{get;set;}
+		@AuraEnabled public ReasonCode reasonCode{get;set;}
 	}
 
 
