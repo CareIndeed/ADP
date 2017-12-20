@@ -1,0 +1,41 @@
+public class WorkersDeserializeCtr {
+
+    //public List<WorkersJson> wklist{get;set;}
+    
+    @AuraEnabled
+    public static String deserialize(){
+        
+        String accessToken = CareIndeedWebServiceHelper.getAccessToken();
+	    String endpoint = 'https://api.adp.com/hr/v2/workers';
+	    Http http = new Http();
+	    HttpRequest req = new HttpRequest();
+	    HttpResponse res = new HttpResponse();
+	        req.setMethod('GET');
+	        req.setHeader('Authorization', 'Bearer '+accessToken);
+	        req.setEndpoint(endpoint);
+	        req.setTimeout(120000);
+	        
+	        res = http.send(req);
+	        String responsebody = res.getBody();
+	        System.debug('@@@@@@@@@@responsebody@@@'+responsebody);
+	         
+	    map<String, Object> wklist = (map<String, Object>) JSON.deserializeUntyped(responsebody);
+	    /*WorkersJson wklist = (WorkersJson) JSON.deserialize(responsebody, WorkersJson.class);
+		System.debug('@@@@@@wkj@@@@@'+wklist);
+		return wklist;
+		*/
+		List<Object> worker = (List<Object>)wklist.get('workers');
+		for(Object obj: worker){
+		    Map<String, Object> workerdata = (Map<String, Object>)obj;
+		    System.debug('@@@@@@@workerdata@@@@'+workerdata);
+		    
+		    for(String wkName: workerdata.keySet()){
+		        
+		    }
+		}
+		
+		return null;
+    }
+    
+    
+}
