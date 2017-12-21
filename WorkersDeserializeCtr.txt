@@ -2,8 +2,8 @@ public class WorkersDeserializeCtr {
 
     //public List<WorkersJson> wklist{get;set;}
     
-    @AuraEnabled
-    public static String deserialize(){
+    
+    public PageReference deserialize(){
         
         String accessToken = CareIndeedWebServiceHelper.getAccessToken();
 	    String endpoint = 'https://api.adp.com/hr/v2/workers';
@@ -20,21 +20,33 @@ public class WorkersDeserializeCtr {
 	        System.debug('@@@@@@@@@@responsebody@@@'+responsebody);
 	         
 	    map<String, Object> wklist = (map<String, Object>) JSON.deserializeUntyped(responsebody);
-	    /*WorkersJson wklist = (WorkersJson) JSON.deserialize(responsebody, WorkersJson.class);
 		System.debug('@@@@@@wkj@@@@@'+wklist);
-		return wklist;
-		*/
+		
+		List<Care_Indeed_Contact__c> carelist = new List<Care_Indeed_Contact__c>();
+		 id rectypeid = Schema.SObjectType.Care_Indeed_Contact__c.getRecordTypeInfosByName().get('Worker').getRecordTypeId();
 		List<Object> worker = (List<Object>)wklist.get('workers');
-		for(Object obj: worker){
-		    Map<String, Object> workerdata = (Map<String, Object>)obj;
-		    System.debug('@@@@@@@workerdata@@@@'+workerdata);
+		for(Object cls: worker){
+		    Map<String, Object> workerdata = (Map<String, Object>)cls;
 		    
-		    for(String wkName: workerdata.keySet()){
-		        
-		    }
+		    Care_Indeed_Contact__c care = new Care_Indeed_Contact__c();
+		        care.ADP_PersonOID__c = (String)workerdata.get('associateOID');
+		         care.recordtypeid = rectypeid;
+		         
+		         Map<String, Object> persondata = (Map<String, Object>)workerdata.get('person');
+                 Map<String, Object> legalName  = (Map<String, Object>)persondata.get('legalName');
+		         care.Name = (String)legalName.get('formattedName');
+		         
+		         
+		         carelist.add(care);
+		    
 		}
 		
-		return null;
+		insert carelist;
+		
+        PageReference pageRef = new PageReference('/Care_Indeed_Contact__c/list?filterName=Recent');
+
+        pageRef.setRedirect(true);
+		return pageRef;
     }
     
     
