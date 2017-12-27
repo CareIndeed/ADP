@@ -1,9 +1,9 @@
 public class WorkersDeserializeCtr {
-
+    
     public PageReference deserialize(){
         
         String accessToken = CareIndeedWebServiceHelper.getAccessToken();
-	    String endpoint = 'https://api.adp.com/hr/v2/workers';
+	    String endpoint = 'https://api.adp.com/hr/v2/workers?$top=1000';
 	    Http http = new Http();
 	    HttpRequest req = new HttpRequest();
 	    HttpResponse res = new HttpResponse();
@@ -22,35 +22,74 @@ public class WorkersDeserializeCtr {
 	
 		Map<String, Care_Indeed_Contact__c> maplist = new Map<String, Care_Indeed_Contact__c>();
 		List<Care_Indeed_Contact__c> carelist = new List<Care_Indeed_Contact__c>();
-		 id rectypeid = Schema.SObjectType.Care_Indeed_Contact__c.getRecordTypeInfosByName().get('Worker').getRecordTypeId();
+		id rectypeid = Schema.SObjectType.Care_Indeed_Contact__c.getRecordTypeInfosByName().get('Worker').getRecordTypeId();
 		List<Object> worker = (List<Object>)wklist.get('workers');
+		
 		for(Care_Indeed_Contact__c cc:[select id, name, ADP_PersonOID__c from Care_Indeed_Contact__c where ADP_PersonOID__c !=null]){
 		    maplist.put(cc.ADP_PersonOID__c,cc);
 		}
 		for(Object cls: worker){
 		    Map<String, Object> workerdata = (Map<String, Object>)cls;
+		    System.debug('@@@Vworkerdata@@@@@@'+workerdata);
 		    if(!maplist.containsKey((String)workerdata.get('associateOID'))){
 		          Care_Indeed_Contact__c care = new Care_Indeed_Contact__c();
 		        care.ADP_PersonOID__c = (String)workerdata.get('associateOID');
 		        care.recordtypeid = rectypeid;
-		        care.ADP_Associate_OID__c = (String)workerdata.get('associateOID');
+		        //care.ADP_Associate_OID__c = (String)workerdata.get('associateOID');
 		        Map<String, Object> workerID = (Map<String, Object>)workerdata.get('workerID');
                 care.ADP_Worker_ID__c = (String)workerID.get('idValue');
                 
                 Map<String, Object> workerDatesdata  = (Map<String, Object>)workerdata.get('workerDates');
                 String dt = (String)workerDatesdata.get('originalHireDate');
+                
                 if(dt!=null){
                 String caredate = dt.substring(8,10)+'/'+dt.substring(5,7) +'/' +dt.substring(0,4);
                 care.Hire_Date__c = Date.parse(caredate);
                 }
                 String dt1 = (String)workerDatesdata.get('terminationDate');
+                
                 if(dt1!=null){
                 String caredate1 = dt1.substring(8,10)+'/'+dt1.substring(5,7) +'/' +dt1.substring(0,4);
                 care.Termination_Date__c = Date.parse(caredate1);
                 }
                 
                 
+                Map<String, Object> workerStatusdata  = (Map<String, Object>)workerdata.get('workerStatus');
+                Map<String, Object> statusCodedata  = (Map<String, Object>)workerStatusdata.get('statusCode');
+                   care.Worker_Status_Code_name__c = (String)statusCodedata.get('codeValue'); 
+                
+                
 		         Map<String, Object> persondata = (Map<String, Object>)workerdata.get('person');
+		         
+		         List<Object> governmentIDslist = (List<Object>)persondata.get('governmentIDs');
+		         //care.ADP_PersonOID__c = (String)workerdata.get('associateOID');
+		         System.debug('%%%%%%%governmentIDslist%%%%%%'+governmentIDslist);
+		         if(governmentIDslist!=null)
+		         for(Object objAccount1: governmentIDslist){
+		             if(objAccount1!=null){
+    		             Map<String, Object> objAccount2= (Map<String, Object>)objAccount1;
+    		             care.ADP_Associate_OID__c = (String)objAccount2.get('itemID');
+    		             system.debug('..care.ADP_Associate_OID__c..'+care.ADP_Associate_OID__c);
+		             }
+		         }
+		         
+		        /*
+		        Map<String, Object> objAccount1 = (Map<String, Object>)governmentIDslist[0];
+		        //Map<String, Object> governmentIDs = (Map<String, Object>)objAccount1.get('governmentIDs');
+		        System.debug('&&&&&&&&objAccount1&&&&&&&'+objAccount1);
+		        for(string g:objAccount1.keyset()){
+		            system.debug('govt ID....'+g);
+		            
+		        }
+		        if(String.isNotBlank(governmentIDs)){
+		            
+		            care.ADP_Associate_OID__c = (String)governmentIDs.get('itemID');
+		        } */
+		        
+		        
+
+
+		             
 
 		         Map<String, Object> genderCodedata  = (Map<String, Object>)persondata.get('genderCode');
 		         care.Gender__c = (String)genderCodedata.get('shortName');
@@ -60,46 +99,28 @@ public class WorkersDeserializeCtr {
 		         care.Name = (String)legalName.get('formattedName');
 
 		        /*String dt2 = (String)persondata.get('birthDate');
+		        if(dt2!=null){
                 String caredate2 = dt2.substring(8,10)+'/'+dt2.substring(5,7) +'/' +dt2.substring(0,4);
-                care.Birth_Date__c = Date.parse(caredate2);*/
-
+                care.Birth_Date__c = Date.parse(caredate2);
+		        }*/
+		        
                 Map<String, Object> legalAddressdata  = (Map<String, Object>)persondata.get('legalAddress');
+                if(legalAddressdata!=null){
                 care.Legal_Mailing_Address__c = (String)legalAddressdata.get('lineOne')+','+(String)legalAddressdata.get('cityName')+','+(String)legalAddressdata.get('countryCode')+','+(String)legalAddressdata.get('postalCode');
                 care.Birth_City__c = (String)legalAddressdata.get('cityName');
                 care.Birth_Country_Code__c = (String)legalAddressdata.get('countryCode');
                 care.Birth_Postal_Code__c = (String)legalAddressdata.get('postalCode');
-                
+                }
                 Map<String, Object> maritalStatusCodedata  = (Map<String, Object>)persondata.get('maritalStatusCode');
                 if(maritalStatusCodedata!=null){
 		        care.Maritial_Status_Code_Name__c = (String)maritalStatusCodedata.get('codeValue');
                 }
-                //care.Legal_Mailing_Address__c = (String)legalAddress.get('lineOne');
-                //Map<String, Object> communication  = (Map<String, Object>)persondata.get('communication');
-                //care.Email__c = (String)communication.get('emailUri');
-                //Map<String, Object> maritalStatusCode  = (Map<String, Object>)persondata.get('maritalStatusCode');
+
                 //Map<String, Object> raceCode  = (Map<String, Object>)persondata.get('raceCode');
-                
                 //Map<String, Object> workAssignments  = (Map<String, Object>)workerdata.get('workAssignments');
-                //Map<String, Object> workerDates  = (Map<String, Object>)workerdata.get('workerDates');
-                //Map<String, Object> workerGroups  = (Map<String, Object>)workerdata.get('workerGroups');
-                //Map<String, Object> workerStatus  = (Map<String, Object>)persondata.get('workerStatus');
-                //Map<String, Object> statusCode  = (Map<String, Object>)workAssignments.get('statusCode');
-                
-                
-                
                 //care.ADP_Applicant_ID__c = (String)governmentIDs.get('itemID');
-
-
-
                 //care.Email__c = (String)communication.get('emailUri');
-
-
-                
-                //care.Maritial_Status_Code_Name__c = (String)maritalStatusCode.get('codeValue');
                 //care.Race_Code_Name__c = (String)raceCode.get('shortName');
-
-                //care.Tobacco_User__c = (String)persondata.get('tobaccoUserIndicator');
-                //care.Worker_Status_Code_name__c = (String)statusCode.get('shortName');
                 
             carelist.add(care);
 		        
@@ -109,6 +130,8 @@ public class WorkersDeserializeCtr {
 		
 		
 		upsert carelist;
+		
+		
 	    
 	    
         PageReference pageRef = new PageReference('/one/one.app?source=aloha#/sObject/Care_Indeed_Contact__c/list?filterName=Recent');
