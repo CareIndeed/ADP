@@ -1,0 +1,15 @@
+@isTest
+private class CareIndeedWebServiceHelper_Test {
+    
+     @isTest static void testPOSTCallout() {
+         
+        Test.setMock(HttpCalloutMock.class, new WorkerHttpCalloutMock());
+        
+            CareIndeedWebServiceHelper.getAccessToken();
+        
+        Test.setMock(HttpCalloutMock.class, new WorkerHttpCalloutMocktofail());
+        
+            CareIndeedWebServiceHelper.getAccessToken();
+            
+    }
+}

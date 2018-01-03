@@ -1,0 +1,40 @@
+@isTest
+private class WorkersDeserializeCtrBatch_Test {
+
+    private static testMethod void test() {
+    
+    Test.setMock(HttpCalloutMock.class, new WorkerHttpCalloutMock());
+    
+    Account acc = new Account();
+        acc.Name = 'Test';
+        insert acc;
+        
+        Test.startTest();
+            WorkerJSONBatchexcecutionCtr uca = new WorkerJSONBatchexcecutionCtr();
+                uca.Batchexecute();
+        Test.stopTest();
+    
+    List<Care_Indeed_Contact__c> carelist = [Select id from Care_Indeed_Contact__c];
+    System.assert(carelist.size()>0);
+        
+    }
+
+    private static testMethod void testStatusCodefail() {
+    
+    Test.setMock(HttpCalloutMock.class, new WorkerHttpCalloutMocktofail());
+    
+        Account acc1 = new Account();
+            acc1.Name = 'AccountTest1';
+            insert acc1;
+        
+        Test.startTest();
+            WorkerJSONBatchexcecutionCtr uca = new WorkerJSONBatchexcecutionCtr();
+             uca.Batchexecute();
+        Test.stopTest();
+
+    List<Care_Indeed_Contact__c> carelist = [Select id from Care_Indeed_Contact__c];
+    System.assert(carelist.size() == 0);
+    
+    }
+
+}

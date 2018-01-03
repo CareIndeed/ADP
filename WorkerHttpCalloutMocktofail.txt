@@ -1,0 +1,12 @@
+@isTest
+global class WorkerHttpCalloutMocktofail implements HttpCalloutMock {
+
+    global HTTPResponse respond(HTTPRequest request) {
+        // Create a fake response
+        HttpResponse response = new HttpResponse();
+        response.setHeader('Content-Type', 'application/json;charset=UTF-8');
+        response.setBody('{"animals": ["associateOID", "fluffy bunny", "scary bear", "chicken", "mighty moose"]}');
+        response.setStatusCode(400);
+        return response; 
+    }
+}

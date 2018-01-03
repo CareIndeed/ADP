@@ -14,197 +14,209 @@ global class WorkersDeserializeCtrBatch implements Database.Batchable<Sobject>,D
     
     global void execute(Database.BatchableContext BC, List<Account> scope){
         system.debug('I am in execute method..Recordcount::'+recCount);
+// API Call
         String accessToken = CareIndeedWebServiceHelper.getAccessToken();
-	    String endpoint = 'https://api.adp.com/hr/v2/workers?';
-	    Http http = new Http();
-	    HttpRequest req = new HttpRequest();
-	    HttpResponse res = new HttpResponse();
-	    List<Care_Indeed_Contact__c> carelist = new List<Care_Indeed_Contact__c>();
-	        req.setMethod('GET');
-	        req.setHeader('Authorization', 'Bearer '+accessToken);
-	        //req.setEndpoint(endpoint + '$top=100&$skip=' + recCount );
-	        req.setEndpoint(endpoint + '$top=100&$skip=' + recCount );
-	        req.setTimeout(120000);
-	        
-	        res = http.send(req);
-	        String responsebody = res.getBody();
-	        if(res.getStatusCode()!=200){
-	            recCount = 0;
-	            System.debug('Error from '+ req.getEndpoint() + ':'+ res.getStatusCode() + ' ' + res.getStatus());
-	        }
-	        else if(responsebody.Contains('associateOID')){
-	        System.debug('@@@@@@@@@@responsebody@@@'+responsebody);
-		    map<String, Object> wklist = (map<String, Object>) JSON.deserializeUntyped(responsebody);
-			System.debug('@@@@@@wkj@@@@@'+wklist);
-			
-			id rectypeid = Schema.SObjectType.Care_Indeed_Contact__c.getRecordTypeInfosByName().get('Worker').getRecordTypeId();
-			List<Object> worker = (List<Object>)wklist.get('workers');
-
-			for(Object cls: worker){
-			    Map<String, Object> workerdata = (Map<String, Object>)cls;
-			    System.debug('@@@Vworkerdata@@@@@@'+workerdata);
-		    	Care_Indeed_Contact__c care = new Care_Indeed_Contact__c();
-		        care.ADP_Associate_OID__c = (String)workerdata.get('associateOID');
-		        care.recordtypeid = rectypeid;
-		 
-		        Map<String, Object> workerID = (Map<String, Object>)workerdata.get('workerID');
-        	    care.ADP_Worker_ID__c = (String)workerID.get('idValue');
+        String endpoint = 'https://api.adp.com/hr/v2/workers?';
+        Http http = new Http();
+        HttpRequest req = new HttpRequest();
+        HttpResponse res = new HttpResponse();
+        req.setMethod('GET');
+        req.setHeader('Authorization', 'Bearer '+accessToken);
+        req.setEndpoint(endpoint + '$top=100&$skip=' + recCount );
+        req.setTimeout(120000);
+        res = http.send(req);
+        String responsebody = res.getBody();
+// API Call end
+        if(res.getStatusCode()!=200){
+            recCount = 0;
+            System.debug('Error from '+ req.getEndpoint() + ':'+ res.getStatusCode() + ' ' + res.getStatus());
+        }else if(responsebody.Contains('associateOID')){
+            System.debug('@@@@@@@@@@responsebody@@@'+responsebody);
+            map<String, Object> wklist = (map<String, Object>) JSON.deserializeUntyped(responsebody);
+            System.debug('@@@@@@wkj@@@@@'+wklist);
             
-            	Map<String, Object> workerDatesdata  = (Map<String, Object>)workerdata.get('workerDates');
-                String dt = (String)workerDatesdata.get('originalHireDate');
-                
-                if(dt!=null){
-    		            String caredate = dt.substring(8,10)+'/'+dt.substring(5,7) +'/' +dt.substring(0,4);
-    		            care.Hire_month__c = dt.substring(5,7);
-    		            care.Hire_Year__c = dt.substring(0,4);
-            		    care.Hire_Date__c = Date.parse(caredate);
-                	}
-	                String dt1 = (String)workerDatesdata.get('terminationDate');
-                
-    	            if(dt1!=null){
-        		        String caredate1 = dt1.substring(8,10)+'/'+dt1.substring(5,7) +'/' +dt1.substring(0,4);
-                		care.Termination_Date__c = Date.parse(caredate1);
-	                }
+            List<Care_Indeed_Contact__c> carelist = new List<Care_Indeed_Contact__c>();
 
-    	            Map<String, Object> workerStatusdata  = (Map<String, Object>)workerdata.get('workerStatus');
-        	        Map<String, Object> statusCodedata  = (Map<String, Object>)workerStatusdata.get('statusCode');
-					care.Worker_Status_Code_name__c = (String)statusCodedata.get('codeValue');
-					
-					
-					List<Object> workAssignmentslist = (List<Object>)workerdata.get('workAssignments');
-                    if(workAssignmentslist!=null){
-							for(Object work: workAssignmentslist){
-							    if(work!=null){
-								Map<String, Object> workobjAccount= (Map<String, Object>)work;
-								if(workobjAccount!=null){
-								Map<String, Object> homeWorkLocationdata = (Map<String, Object>)workobjAccount.get('homeWorkLocation');
-								System.debug('----------homeWorkLocationdata--------------'+homeWorkLocationdata);
-								    if(homeWorkLocationdata!=null){
-								        care.Birth_Country_Code__c = (String)homeWorkLocationdata.get('countryCode');
-    									care.Birth_Postal_Code__c = (String)homeWorkLocationdata.get('postalCode');
-								        Map<String, Object> addressdata = (Map<String, Object>)homeWorkLocationdata.get('address');
-								        if(addressdata!=null){
-								          care.Birth_City__c = (String)addressdata.get('cityName');  
-								        }
-    									
-								         }
-							    	}
-							     }
-							}
-						}
-			    
-                    if(workerdata!=null){
-					Map<String, Object> persondata = (Map<String, Object>)workerdata.get('person');
-					system.debug('---persondata-----'+persondata);
-					if(persondata!=null){
+            id rectypeid = Schema.SObjectType.Care_Indeed_Contact__c.getRecordTypeInfosByName().get('Worker').getRecordTypeId();
+            List<Object> worker = (List<Object>)wklist.get('workers');
 
-		         		Map<String, Object> genderCodedata  = (Map<String, Object>)persondata.get('genderCode');
-		         		care.Gender__c = (String)genderCodedata.get('shortName');
-		         		care.Gender_Identity_Code_Name__c = (String)genderCodedata.get('codeValue');
-		         
-                 		Map<String, Object> legalName  = (Map<String, Object>)persondata.get('legalName');
-		         		care.Name = (String)legalName.get('formattedName');
+            for(Object cls: worker){
+                Map<String, Object> workerdata = (Map<String, Object>)cls;
+                System.debug('@@@Vworkerdata@@@@@@'+workerdata);
+                if(workerdata!=null){
+                    Care_Indeed_Contact__c care = new Care_Indeed_Contact__c();
+                    care.ADP_Associate_OID__c = (String)workerdata.get('associateOID');
+                    care.recordtypeid = rectypeid;
+         
+// Worker ID                
+                    Map<String, Object> workerID = (Map<String, Object>)workerdata.get('workerID');
+                    care.ADP_Worker_ID__c = (String)workerID.get('idValue');
+// Start of Worker Dates            
+                    Map<String, Object> workerDatesdata  = (Map<String, Object>)workerdata.get('workerDates');
 
-		        		String dt2 = (String)persondata.get('birthDate');
-		        		String modifiedDate;
-		        		if(dt2.substring(0,4) == '0000'){
-		        		    modifiedDate = dt2.substring(8,10)+'/'+dt2.substring(5,7) +'/1900';
-                			
-                			
-		        		}else{
-		        		    modifiedDate = dt2.substring(8,10)+'/'+dt2.substring(5,7) +'/' +dt2.substring(0,4);
-		        		}
-		        		care.Birth_Date__c = Date.parse(modifiedDate);
-		        		care.Birth_Day__c = dt2.substring(8,10);
-		        		care.Birth_Month__c = dt2.substring(5,7);
-		        
-                		Map<String, Object> legalAddressdata  = (Map<String, Object>)persondata.get('legalAddress');
-                		if(legalAddressdata!=null){
-                		    
-                		    Map<String, Object> countrySubdivisionLevel1data = (Map<String, Object>)legalAddressdata.get('countrySubdivisionLevel1');
-                		    if(countrySubdivisionLevel1data!=null){
-                		        care.Legal_Mailing_Address__c = (String)legalAddressdata.get('lineOne')+'\n'+(String)legalAddressdata.get('cityName')+'\n '+(String)countrySubdivisionLevel1data.get('shortName')+'\n'+(String)legalAddressdata.get('postalCode')+'\n'+(String)legalAddressdata.get('countryCode');
-                		        care.Legal_Mailing_Address_City__c = (String)legalAddressdata.get('cityName');
-                		        care.Legal_Mailing_Address_State__c = (String)legalAddressdata.get('countryCode');
-                		        care.Legal_Mailing_Address_Zip__c = (String)legalAddressdata.get('postalCode');
-                		    }
-                			
-                		}
-                
-                    	Map<String, Object> maritalStatusCodedata  = (Map<String, Object>)persondata.get('maritalStatusCode');
-                		if(maritalStatusCodedata!=null){
-		        			care.Maritial_Status_Code_Name__c = (String)maritalStatusCodedata.get('codeValue');
-                		}
-        		        
-        		        Map<String, Object> communicationdata  = (Map<String, Object>)persondata.get('communication');
-        		        if(communicationdata!=null){
-        		        List<Object> landlineslist = (List<Object>)communicationdata.get('landlines');
-						if(landlineslist!=null){
-							for(Object landline: landlineslist){
-							    if(landline!=null){
-								Map<String, Object> landobjAccount= (Map<String, Object>)landline;
-								care.Phone__c = (String)landobjAccount.get('formattedNumber');
-							    }
-							}
-						}
-						List<Object> emailslist = (List<Object>)communicationdata.get('emails');
-						if(emailslist!=null){
-							for(Object mail: emailslist){
-							    if(mail!=null){
-								Map<String, Object> emailobjAccount= (Map<String, Object>)mail;
-								care.Email__c = (String)emailobjAccount.get('emailUri');
-							    }
-							}
-						}
-						
-						List<Object> mobileslist = (List<Object>)communicationdata.get('mobiles');
-						if(mobileslist!=null){
-							for(Object mobile: mobileslist){
-							    if(mobile!=null){
-								Map<String, Object> mobileobjAccount= (Map<String, Object>)mobile;
-								care.Mobile__c = (String)mobileobjAccount.get('formattedNumber');
-							    }
-							}
-						}
-						
-		    	    }
-		    	    
-		    	        care.Tobacco_User__c = String.valueOf(persondata.get('tobaccoUserIndicator'));
-		    	        
-		    	        Map<String, Object> raceCodedata = (Map<String, Object>)persondata.get('raceCode');
-		    	        if(raceCodedata!=null){
-		    	            care.Race_Code_Name__c = (String)raceCodedata.get('shortName');
-		    	        }
-		    	    
-		        	}
-			    
+                    String dt = (String)workerDatesdata.get('originalHireDate');                
+                    if(dt!=null){
+                        String caredate = dt.substring(8,10)+'/'+dt.substring(5,7) +'/' +dt.substring(0,4);
+                        care.Original_Hire_Date__c = Date.parse(caredate);
                     }
-            			carelist.add(care);
-		    	}
-                 
-                 if(carelist.size()>0) {
-                    system.debug('Inserting the records');
-                    upsert carelist ADP_Associate_OID__c;
-                    recCount = recCount+100;
+                
+                    String dt1 = (String)workerDatesdata.get('terminationDate');
+                    if(dt1!=null){
+                        String caredate1 = dt1.substring(8,10)+'/'+dt1.substring(5,7) +'/' +dt1.substring(0,4);
+                        care.Termination_Date__c = Date.parse(caredate1);
+                    }
+// End of Worker Dates
+
+                    Map<String, Object> workerStatusdata  = (Map<String, Object>)workerdata.get('workerStatus');
+                    Map<String, Object> statusCodedata  = (Map<String, Object>)workerStatusdata.get('statusCode');
+                    care.Worker_Status_Code_name__c = (String)statusCodedata.get('codeValue');
                     
-                 }
-                 else{
-                     system.debug('No records to insert.. Update recCount to 0');
-                     recCount = 0;
-                 }
-                 System.debug('--recCount in execute method----'+recCount);   
-	        }
-	         
+                    List<Object> workAssignmentslist = (List<Object>)workerdata.get('workAssignments');
+                    if(workAssignmentslist!=null){
+                        for(Object work: workAssignmentslist){
+                            System.debug('xxxxxxxxx work assignment section of json xxxxxxxxxxxx'+work);
+                            if(work!=null){
+                                Map<String, Object> workobjAccount= (Map<String, Object>)work;
+                                System.debug('yyyyyyy workobjAccount yyyyyyy'+workobjAccount);
+                                if(workobjAccount!=null){
+                                    String dt2 = (String)workobjAccount.get('hireDate');
+                                    if(dt1!=null){
+                                        String caredate1 = dt1.substring(8,10)+'/'+dt1.substring(5,7) +'/' +dt1.substring(0,4);
+                                        System.debug('Hire Date: '+caredate1);
+                                        care.Hire_Date__c = Date.parse(caredate1);
+                                        care.Hire_month__c = dt1.substring(5,7);
+                                        care.Hire_Year__c = dt1.substring(0,4);
+                                    }
+                                    Map<String, Object> workerTypeCode  = (Map<String, Object>)workobjAccount.get('workerTypeCode');
+                                    system.debug('---workerTypeCode-----'+workerTypeCode);
+                                    if(workerTypeCode!=null){
+                                        System.debug('WorkerTypeCodeName: '+(String)workerTypeCode.get('shortName'));
+                                        care.Worker_Type_Code_Name__c = (String)workerTypeCode.get('shortName');
+                                    }
+//                                  Map<String, Object> homeWorkLocationdata = (Map<String, Object>)workobjAccount.get('homeWorkLocation');
+//                                  System.debug('----------homeWorkLocationdata--------------'+homeWorkLocationdata);
+//                                  if(homeWorkLocationdata!=null){
+//                                      care.Birth_Country_Code__c = (String)homeWorkLocationdata.get('countryCode');
+//                                      care.Birth_Postal_Code__c = (String)homeWorkLocationdata.get('postalCode');
+//                                      Map<String, Object> addressdata = (Map<String, Object>)homeWorkLocationdata.get('address');
+//                                      if(ad/origindressdata!=null){
+//                                          care.Birth_City__c = (String)addressdata.get('cityName');  
+//                                      }                                   
+//                                  }
+                                }
+                            }
+                        }
+                    }
+                
+                    Map<String, Object> persondata = (Map<String, Object>)workerdata.get('person');
+                    system.debug('---persondata-----'+persondata);
+
+                    if(persondata!=null){
+                        Map<String, Object> genderCodedata  = (Map<String, Object>)persondata.get('genderCode');
+                        care.Gender__c = (String)genderCodedata.get('shortName');
+                        care.Gender_Identity_Code_Name__c = (String)genderCodedata.get('codeValue');
+                 
+                        Map<String, Object> legalName  = (Map<String, Object>)persondata.get('legalName');
+                        care.Name = (String)legalName.get('formattedName');
+                        care.Legal_Name__c = (String)legalName.get('formattedName');
+
+                        String dt2 = (String)persondata.get('birthDate');
+                        String modifiedDate;
+                        if(dt2.substring(0,4) == '0000'){
+                            modifiedDate = dt2.substring(8,10)+'/'+dt2.substring(5,7) +'/1900';
+                        }else{
+                            modifiedDate = dt2.substring(8,10)+'/'+dt2.substring(5,7) +'/' +dt2.substring(0,4);
+                        }
+                        care.Birth_Date__c = Date.parse(modifiedDate);
+                        care.Birth_Day__c = dt2.substring(8,10);
+                        care.Birth_Month__c = dt2.substring(5,7);
+                
+                        Map<String, Object> legalAddressdata  = (Map<String, Object>)persondata.get('legalAddress');
+                        if(legalAddressdata!=null){
+                            Map<String, Object> countrySubdivisionLevel1data = (Map<String, Object>)legalAddressdata.get('countrySubdivisionLevel1');
+                            if(countrySubdivisionLevel1data!=null){
+                                if(legalAddressdata.get('lineTwo')!=null){
+                                    care.Legal_Mailing_Address__c = (String)legalAddressdata.get('lineOne')+'\n'+(String)legalAddressdata.get('lineTwo')+'\n'+(String)legalAddressdata.get('cityName')+', '+(String)countrySubdivisionLevel1data.get('codeValue') +' '+(String)legalAddressdata.get('postalCode')+'\n'+(String)legalAddressdata.get('countryCode');
+                                }else{
+                                    care.Legal_Mailing_Address__c = (String)legalAddressdata.get('lineOne')+'\n'+(String)legalAddressdata.get('cityName')+', '+(String)countrySubdivisionLevel1data.get('codeValue') +' '+(String)legalAddressdata.get('postalCode')+'\n'+(String)legalAddressdata.get('countryCode');
+                                }
+                                care.Legal_Mailing_Address_City__c = (String)legalAddressdata.get('cityName');
+                                care.Legal_Mailing_Address_State__c = (String)legalAddressdata.get('countryCode');
+                                care.Legal_Mailing_Address_Zip__c = (String)legalAddressdata.get('postalCode');
+                            }
+                        }
+                
+                        Map<String, Object> maritalStatusCodedata  = (Map<String, Object>)persondata.get('maritalStatusCode');
+                        if(maritalStatusCodedata!=null){
+                            care.Maritial_Status_Code_Name__c = (String)maritalStatusCodedata.get('codeValue');
+                        }
+                        
+                        Map<String, Object> communicationdata  = (Map<String, Object>)persondata.get('communication');
+                        if(communicationdata!=null){
+                            List<Object> landlineslist = (List<Object>)communicationdata.get('landlines');
+                            if(landlineslist!=null){
+                                for(Object landline: landlineslist){
+                                    if(landline!=null){
+                                        Map<String, Object> landobjAccount= (Map<String, Object>)landline;
+                                        care.Phone__c = (String)landobjAccount.get('formattedNumber');
+                                    }
+                                }
+                            }
+                            List<Object> emailslist = (List<Object>)communicationdata.get('emails');
+                            if(emailslist!=null){
+                                for(Object mail: emailslist){
+                                    if(mail!=null){
+                                        Map<String, Object> emailobjAccount= (Map<String, Object>)mail;
+                                        care.Email__c = (String)emailobjAccount.get('emailUri');
+                                    }
+                                }
+                            }
+                        
+                            List<Object> mobileslist = (List<Object>)communicationdata.get('mobiles');
+                            if(mobileslist!=null){
+                                for(Object mobile: mobileslist){
+                                    if(mobile!=null){
+                                        Map<String, Object> mobileobjAccount= (Map<String, Object>)mobile;
+                                        care.Mobile__c = (String)mobileobjAccount.get('formattedNumber');
+                                    }
+                                }
+                            }   
+                        }
+                    
+                        care.Tobacco_User__c = String.valueOf(persondata.get('tobaccoUserIndicator'));
+                        Map<String, Object> raceCodedata = (Map<String, Object>)persondata.get('raceCode');
+                        if(raceCodedata!=null){
+                            care.Race_Code_Name__c = (String)raceCodedata.get('shortName');
+                        }
+                    }
+                    
+                    carelist.add(care);
+                 
+                    if(carelist.size()>0) {
+                        system.debug('Inserting the records');
+                        upsert carelist ADP_Associate_OID__c;
+                        recCount = recCount+100;
+                    }else{
+                        system.debug('No records to insert.. Update recCount to 0');
+                        recCount = 0;
+                    }
+                    System.debug('--recCount in execute method----'+recCount);   
+                }
+            }
+        }
     }
     
     global void finish(Database.BatchableContext BC){
         system.debug('I am in finish method...'+recCount);
         system.debug('recCount in finish method...'+recCount);
-        if(recCount>0){
+        if(!Test.isRunningTest()){
+          if(recCount>0){
             system.debug('Calling the next batch..');
             WorkersDeserializeCtrBatch exbch=new WorkersDeserializeCtrBatch(recCount);
             Database.executeBatch(exbch,1);
+            }  
         }
+        
     }
 
     
