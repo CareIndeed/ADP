@@ -1,0 +1,189 @@
+global class JobapplicationDeserializeCtrBatch implements Database.Batchable<Sobject>,Database.AllowsCallouts, Database.stateful{
+    
+    /*global integer recCount;
+    global JobapplicationDeserializeCtrBatch(integer offsetVal){
+        recCount=offsetVal;
+        
+    }*/
+    global Database.querylocator start(Database.BatchableContext BC){
+        String Query = 'SELECT id from Account Limit 1';
+        return Database.getQueryLocator(Query);
+    }
+    
+    global void execute(Database.BatchableContext BC, List<Account> scope){
+        
+
+        String accessToken = CareIndeedWebServiceHelper.getAccessToken();
+        String endpoint = 'https://api.adp.com/staffing/v1/job-applications';
+        Http http = new Http();
+        HttpRequest req = new HttpRequest();
+        HttpResponse res = new HttpResponse();
+        req.setMethod('GET');
+        req.setHeader('Authorization', 'Bearer '+accessToken);
+        req.setEndpoint(endpoint);
+        req.setTimeout(120000);
+        res = http.send(req);
+        String responsebody = res.getBody();
+
+        if(res.getStatusCode()!=200){
+            System.debug('Error from '+ req.getEndpoint() + ':'+ res.getStatusCode() + ' ' + res.getStatus());
+        }else if(responsebody.Contains('itemID')){
+            System.debug('@@@@@@@@@@responsebody@@@'+responsebody);
+            map<String, Object> joblist = (map<String, Object>) JSON.deserializeUntyped(responsebody);
+            System.debug('@@@@@@joblist@@@@@'+joblist);
+            
+            Set<Care_Indeed_Contact__c> carelist = new set<Care_Indeed_Contact__c>();
+            List<Care_Indeed_Contact__c> carelistupdate = new List<Care_Indeed_Contact__c>();
+
+            id rectypeid = Schema.SObjectType.Care_Indeed_Contact__c.getRecordTypeInfosByName().get('Recruit').getRecordTypeId();
+            
+            List<Object> jobapplication = (List<Object>)joblist.get('jobApplications');
+
+            for(Object cls: jobapplication){
+                Map<String, Object> jobapplicationdata = (Map<String, Object>)cls;
+                System.debug('@@@jobapplication@@@@@@'+jobapplicationdata);
+//ADP Aplicant Id                
+                if(jobapplicationdata!=null){
+                    Care_Indeed_Contact__c care = new Care_Indeed_Contact__c();
+                    care.ADP_Applicant_ID__c = (String)jobapplicationdata.get('itemID');
+                    care.recordtypeid = rectypeid;
+                    
+                    map<String, Object> jobRequisitiondata = (map<String, Object>)jobapplicationdata.get('jobRequisition');
+                    System.debug('----jobRequisitiondata-----'+jobRequisitiondata);
+                    if(jobRequisitiondata!=null){
+                        map<String, Object> hiringManagerdata = (map<String, Object>)jobRequisitiondata.get('hiringManager');
+                         System.debug('----hiringManagerdata-----'+hiringManagerdata);
+                        if(hiringManagerdata!=null){
+                            map<String, Object> personNamedata = (map<String, Object>)hiringManagerdata.get('personName');
+                            System.debug('----personNamedata--------'+personNamedata);
+                            /*if(personNamedata!=null){
+                                care.Name = (String)personNamedata.get('formattedName');
+                            }*/
+                        }
+                    }
+                    
+                    map<String, Object> applicantdata = (map<String, Object>)jobapplicationdata.get('applicant');
+                    System.debug('---applicantdata---'+applicantdata);
+                    if(applicantdata!=null){
+                        map<String, Object> persondata = (map<String, Object>)applicantdata.get('person');
+                        System.debug('---persondata---'+persondata);
+                        
+                        if(persondata!=null){
+                        List<Object> otherPersonalAddresseslist = (List<Object>)persondata.get('otherPersonalAddresses');
+                        System.debug('---otherPersonalAddresseslist---'+otherPersonalAddresseslist);
+//Legal Address                        
+                       if(otherPersonalAddresseslist!=null){
+                            for(Object otherPersonalAddressesdata: otherPersonalAddresseslist){
+                            if(otherPersonalAddressesdata!=null){
+                                map<String, Object> otherPersonalAddressesobject = (map<String, Object>)otherPersonalAddressesdata;
+                                System.debug('---otherPersonalAddresseslist---'+otherPersonalAddresseslist);
+                                map<String, Object> countrySubdivisionLevel1data = (map<String, Object>)otherPersonalAddressesobject.get('countrySubdivisionLevel1');
+                                System.debug('---countrySubdivisionLevel1data---'+countrySubdivisionLevel1data);
+                                if(countrySubdivisionLevel1data!=null){
+                                     if(otherPersonalAddressesobject.get('lineTwo')!=null){
+                                           care.Legal_Mailing_Address__c = (String)otherPersonalAddressesobject.get('lineOne')+'\n'+(String)otherPersonalAddressesobject.get('lineTwo')+'\n'+(String)otherPersonalAddressesobject.get('cityName')+', '+(String)countrySubdivisionLevel1data.get('codeValue') +' '+(String)otherPersonalAddressesobject.get('postalCode')+'\n'+(String)otherPersonalAddressesobject.get('countryCode'); 
+                                        }else{
+                                            care.Legal_Mailing_Address__c = (String)otherPersonalAddressesobject.get('lineOne')+'\n'+(String)otherPersonalAddressesobject.get('cityName')+', '+(String)countrySubdivisionLevel1data.get('codeValue') +' '+(String)otherPersonalAddressesobject.get('postalCode')+'\n'+(String)otherPersonalAddressesobject.get('countryCode');
+                                        }   
+                                    }
+                                }
+                            }
+                       }
+//Email                       
+                       map<String, Object> communicationdata = (map<String, Object>)persondata.get('communication');
+                       System.debug('---communicationdata---'+communicationdata);
+                       if(communicationdata!=null){
+                          List<Object> emailslist = (List<Object>)communicationdata.get('emails');
+                          System.debug('---emailslist---'+emailslist);
+                          if(emailslist!=null){
+                              for(Object emailslst: emailslist){
+                                  map<String, Object> emailsdata = (map<String, Object>)emailslst;
+                                  System.debug('---emailsdata---'+emailsdata);
+                                  if(emailsdata!=null){
+                                      care.Email__c = (String)emailsdata.get('emailUri');
+                                  }
+                              }
+                          }
+//Phone Number                          
+                          List<Object> landlineslist = (List<Object>)communicationdata.get('landlines');
+                          System.debug('---landlineslist---'+landlineslist);
+                          if(landlineslist!=null){
+                              for(Object landlineslst: landlineslist){
+                                  map<String, Object> landlineslistdata = (map<String, Object>)landlineslst;
+                                  System.debug('---landlineslistdata---'+landlineslistdata);
+                                  if(landlineslistdata!=null){
+                                      care.Phone__c = (String)landlineslistdata.get('formattedNumber');
+                                  }
+                              }
+                          }
+//Mobile Number                          
+                          List<Object> mobileslist = (List<Object>)communicationdata.get('mobiles');
+                          System.debug('---mobileslist---'+mobileslist);
+                          if(mobileslist!=null){
+                              for(Object mobileslst: mobileslist){
+                                  map<String, Object> mobileslistdata = (map<String, Object>)mobileslst;
+                                  System.debug('---mobileslistdata---'+mobileslistdata);
+                                  if(mobileslistdata!=null){
+                                      care.Mobile__c = (String)mobileslistdata.get('formattedNumber');
+                                  }
+                              }
+                          }
+                          
+                       }
+//Name                       
+                       map<String, Object> legalNamedata = (map<String, Object>)persondata.get('legalName');
+                       System.debug('---legalNamedata---'+legalNamedata);
+                       if(legalNamedata!=null){
+                           if(legalNamedata.get('middleName')!=null){
+                               care.Name = (String)legalNamedata.get('familyName1')+' '+(String)legalNamedata.get('middleName')+' '+(String)legalNamedata.get('givenName');
+                           }else{
+                               care.Name = (String)legalNamedata.get('familyName1')+' '+(String)legalNamedata.get('givenName');
+                           }
+                         }
+//Birth Date                         
+                        String dt2 = (String)persondata.get('birthDate');
+                            if(dt2!=null){
+                                String modifiedDate;
+                                if(dt2.substring(0,4) == '0000'){
+                                    modifiedDate = dt2.substring(8,10)+'/'+dt2.substring(5,7) +'/1900';
+                                }else{
+                                    modifiedDate = dt2.substring(8,10)+'/'+dt2.substring(5,7) +'/' +dt2.substring(0,4);
+                                }
+                                care.Birth_Date__c = Date.parse(modifiedDate);
+                                care.Birth_Day__c = dt2.substring(8,10);
+                                care.Birth_Month__c = dt2.substring(5,7);
+                            }
+                        
+                      }
+                    }
+                    
+                    carelist.add(care);
+                }
+                
+                 
+                
+            }
+            
+            carelistupdate.addAll(carelist);
+            if(carelistupdate.size()>0) {
+				system.debug('Inserting the Care Indeed Contact records');
+				upsert carelistupdate ADP_Applicant_ID__c;
+				//recCount = recCount+500;
+			}else{
+				system.debug('No records to insert.. Update recCount to 0');
+				//recCount = 0;
+			}
+        }
+    }
+    
+    global void finish(Database.BatchableContext BC){
+        
+        /*if(recCount>0){
+            JobapplicationDeserializeCtrBatch jobexbch=new JobapplicationDeserializeCtrBatch(recCount);
+            Database.executeBatch(jobexbch,1);
+            
+        }*/
+    }
+
+    
+}

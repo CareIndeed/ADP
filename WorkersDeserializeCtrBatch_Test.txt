@@ -10,8 +10,11 @@ private class WorkersDeserializeCtrBatch_Test {
         insert acc;
         
         Test.startTest();
-            WorkerJSONBatchexcecutionCtr uca = new WorkerJSONBatchexcecutionCtr();
-                uca.Batchexecute();
+            WorkersDeserializeCtrBatch_Scheduled uca = new WorkersDeserializeCtrBatch_Scheduled();
+                uca.execute(null);
+                
+            WorkersDeserializeCtrBatch_Scheduled11 uca11 = new WorkersDeserializeCtrBatch_Scheduled11();
+                uca11.execute(null);
         Test.stopTest();
     
     List<Care_Indeed_Contact__c> carelist = [Select id from Care_Indeed_Contact__c];
@@ -28,8 +31,11 @@ private class WorkersDeserializeCtrBatch_Test {
             insert acc1;
         
         Test.startTest();
-            WorkerJSONBatchexcecutionCtr uca = new WorkerJSONBatchexcecutionCtr();
-             uca.Batchexecute();
+            WorkersDeserializeCtrBatch_Scheduled uca = new WorkersDeserializeCtrBatch_Scheduled();
+             uca.execute(null);
+             
+            WorkersDeserializeCtrBatch_Scheduled11 uca11 = new WorkersDeserializeCtrBatch_Scheduled11();
+                uca11.execute(null);
         Test.stopTest();
 
     List<Care_Indeed_Contact__c> carelist = [Select id from Care_Indeed_Contact__c];

@@ -1,0 +1,17 @@
+@isTest
+Private class CareIndeedcontactsInsertandupdate_Test{
+
+    static testMethod void testWithExistingContact(){
+
+        Contact c = new Contact();
+        	c.LastName = 'Test1';
+        	c.Gender__c = 'Female';
+       		c.Email = 'test@email.com';
+            c.MobilePhone = '8908765478';
+            c.Phone  = '0896558766';
+        	insert c;
+           c.Phone  = '0896558776';
+        update c;
+       
+    }
+}

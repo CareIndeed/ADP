@@ -1,0 +1,53 @@
+global class CareIndeedOwnerReassignment implements Database.Batchable<SObject>, Database.Stateful{
+
+    
+    global Database.queryLocator start(Database.BatchableContext ctx){
+        
+        return Database.getQueryLocator([SELECT id, name, ownerId FROM Care_Indeed_Contact__c WHERE ownerid =:label.CareIndeedOwners]);
+    }
+    
+    global void execute(Database.BatchableContext ctx, List<Care_Indeed_Contact__c> scope){
+
+        List<Care_Indeed_Contact__c> carelist= new List<Care_Indeed_Contact__c>();
+        
+        for(Care_Indeed_Contact__c care: scope){
+            care.ownerId = label.CareIndeedOwners1;
+            carelist.add(care);
+        }
+        
+        update carelist;
+        System.debug('------carelist------'+carelist);
+      }  
+    
+    global void finish(Database.BatchableContext ctx){
+    
+        AsyncApexJob a = [SELECT id, ApexClassId, 
+                       JobItemsProcessed, TotalJobItems, 
+                       NumberOfErrors, CreatedBy.Email 
+                       FROM AsyncApexJob 
+                       WHERE id = :ctx.getJobId()];
+        
+        String emailMessage = 'Your batch job '
+             + 'CareIndeedOwnerReassignment'
+             + 'has finished.  It executed ' 
+             + a.totalJobItems 
+             + ' batches.  Of which, ' + a.jobitemsprocessed 
+             + ' processed without any exceptions thrown and ' 
+             + a.numberOfErrors +
+             ' batches threw unhandled exceptions.'
+             + '  Of the batches that executed without error, ' 
+             + ' records were not updated successfully.';
+        
+        Messaging.SingleEmailMessage mail = 
+              new Messaging.SingleEmailMessage();
+        String[] toAddresses = new String[] {'tech@careindeed.com'};
+        mail.setToAddresses(toAddresses);
+        mail.setReplyTo('noreply@salesforce.com');
+        mail.setSenderDisplayName('Batch Job Summary');
+        mail.setSubject('Batch job completed');
+        mail.setPlainTextBody(emailMessage);
+        mail.setHtmlBody(emailMessage);
+        Messaging.sendEmail(new Messaging.SingleEmailMessage[] 
+                           { mail });
+    }
+}

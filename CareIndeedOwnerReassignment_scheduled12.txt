@@ -1,0 +1,7 @@
+global class CareIndeedOwnerReassignment_scheduled12 implements Schedulable{
+
+    global void execute(SchedulableContext sc){
+        
+        Id batchJobId = Database.executeBatch(new CareIndeedOwnerReassignment(), 200);   
+    }
+}

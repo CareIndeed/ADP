@@ -1,0 +1,25 @@
+@isTest
+private class CareIndeedOwnerReassignment_Test{
+
+    private static testMethod void OwnerChange(){
+    
+        List<Care_Indeed_Contact__c> carelist = new List<Care_Indeed_Contact__c>();
+        String testLbl = Label.CareIndeedOwners;
+        for(integer i=0; i<200; i++){
+            Care_Indeed_Contact__c care = new Care_Indeed_Contact__c();
+                care.Name = 'Test';
+                care.ownerId = testLbl;
+                carelist.add(care);
+        }
+        
+        insert carelist;
+        
+        Test.startTest();
+            CareIndeedOwnerReassignment_scheduled careBatch = new CareIndeedOwnerReassignment_scheduled();
+                careBatch.execute(null);
+                
+            CareIndeedOwnerReassignment_scheduled12 careBatch12 = new CareIndeedOwnerReassignment_scheduled12();
+                careBatch12.execute(null);
+         Test.stopTest();       
+    }
+}

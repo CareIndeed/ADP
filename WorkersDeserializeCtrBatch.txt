@@ -31,9 +31,9 @@ global class WorkersDeserializeCtrBatch implements Database.Batchable<Sobject>,D
             recCount = 0;
             System.debug('Error from '+ req.getEndpoint() + ':'+ res.getStatusCode() + ' ' + res.getStatus());
         }else if(responsebody.Contains('associateOID')){
-            System.debug('@@@@@@@@@@responsebody@@@'+responsebody);
+//            System.debug('@@@@@@@@@@responsebody@@@'+responsebody);
             map<String, Object> wklist = (map<String, Object>) JSON.deserializeUntyped(responsebody);
-            System.debug('@@@@@@wkj@@@@@'+wklist);
+//            System.debug('@@@@@@wkj@@@@@'+wklist);
             
             List<Care_Indeed_Contact__c> carelist = new List<Care_Indeed_Contact__c>();
 
@@ -71,6 +71,7 @@ global class WorkersDeserializeCtrBatch implements Database.Batchable<Sobject>,D
                     Map<String, Object> statusCodedata  = (Map<String, Object>)workerStatusdata.get('statusCode');
                     care.Worker_Status_Code_name__c = (String)statusCodedata.get('codeValue');
                     
+// Start of Worker Assignments Data                    
                     List<Object> workAssignmentslist = (List<Object>)workerdata.get('workAssignments');
                     if(workAssignmentslist!=null){
                         for(Object work: workAssignmentslist){
@@ -80,12 +81,11 @@ global class WorkersDeserializeCtrBatch implements Database.Batchable<Sobject>,D
                                 System.debug('yyyyyyy workobjAccount yyyyyyy'+workobjAccount);
                                 if(workobjAccount!=null){
                                     String dt2 = (String)workobjAccount.get('hireDate');
-                                    if(dt1!=null){
-                                        String caredate1 = dt1.substring(8,10)+'/'+dt1.substring(5,7) +'/' +dt1.substring(0,4);
-                                        System.debug('Hire Date: '+caredate1);
-                                        care.Hire_Date__c = Date.parse(caredate1);
-                                        care.Hire_month__c = dt1.substring(5,7);
-                                        care.Hire_Year__c = dt1.substring(0,4);
+                                    if(dt2!=null){
+                                        String caredate2 = dt2.substring(8,10)+'/'+dt2.substring(5,7) +'/' +dt2.substring(0,4);
+                                        care.Hire_Date__c = Date.parse(caredate2);
+                                        care.Hire_month__c = dt2.substring(5,7);
+                                        care.Hire_Year__c = dt2.substring(0,4);
                                     }
                                     Map<String, Object> workerTypeCode  = (Map<String, Object>)workobjAccount.get('workerTypeCode');
                                     system.debug('---workerTypeCode-----'+workerTypeCode);
@@ -107,6 +107,7 @@ global class WorkersDeserializeCtrBatch implements Database.Batchable<Sobject>,D
                             }
                         }
                     }
+// End of Worker Assignments Data
                 
                     Map<String, Object> persondata = (Map<String, Object>)workerdata.get('person');
                     system.debug('---persondata-----'+persondata);
@@ -192,17 +193,18 @@ global class WorkersDeserializeCtrBatch implements Database.Batchable<Sobject>,D
                     
                     carelist.add(care);
                  
-                    if(carelist.size()>0) {
-                        system.debug('Inserting the records');
-                        upsert carelist ADP_Associate_OID__c;
-                        recCount = recCount+100;
-                    }else{
-                        system.debug('No records to insert.. Update recCount to 0');
-                        recCount = 0;
-                    }
-                    System.debug('--recCount in execute method----'+recCount);   
+                       
                 }
             }
+            if(carelist.size()>0) {
+                system.debug('Inserting the records');
+                upsert carelist ADP_Associate_OID__c;
+                recCount = recCount+100;
+            }else{
+                system.debug('No records to insert.. Update recCount to 0');
+                recCount = 0;
+            }
+            System.debug('--recCount in execute method----'+recCount);
         }
     }
     
