@@ -1,0 +1,73 @@
+@isTest
+private class WorkerSupportingDataCtrBatch_Test {
+
+    private static testMethod void test() {
+    
+    Test.setMock(HttpCalloutMock.class, new WorkerHttpCalloutMock());
+    
+    Account acc = new Account();
+        acc.Name = 'Test';
+        insert acc;
+
+         Care_Indeed_Contact__c care = new Care_Indeed_Contact__c();
+            care.Name = 'test';
+            care.ADP_Associate_OID__c = 'G3A6H108DER4W1AV';
+            insert care;
+        Care_Indeed_Contact__c care12 = new Care_Indeed_Contact__c();
+            care12.Name = 'test';
+            care12.ADP_Associate_OID__c = 'G34V1BE4NZWS89Q4';
+            insert care12;    
+               Care_Indeed_Contact__c care1 = new Care_Indeed_Contact__c();
+            care1.Name = 'test';
+            care1.ADP_Associate_OID__c = 'G34V1BE4NZWSA4GW';
+            insert care1;
+              Care_Indeed_Contact__c care13 = new Care_Indeed_Contact__c();
+            care13.Name = 'test';
+            care13.ADP_Associate_OID__c = 'G3ZKQPWVB2D4RGD6';
+            insert care13;
+        Test.startTest();
+            WorkerSupportingDataCtrBatch_scheduled uca = new WorkerSupportingDataCtrBatch_scheduled();
+            uca.execute(null); 
+        Test.stopTest();
+    
+    //List<Care_Indeed_Contact__c> carelist = [Select id, ADP_Associate_OID__c from Care_Indeed_Contact__c where ADP_Associate_OID__c=:'G3A6H108DER4W1AV'];
+    //System.assert(carelist.size()>0);
+        
+    }
+
+    private static testMethod void testStatusCodefail() {
+    
+    Test.setMock(HttpCalloutMock.class, new WorkerHttpCalloutMocktofail());
+    
+        Account acc1 = new Account();
+            acc1.Name = 'AccountTest1';
+            insert acc1;
+            
+      
+         Care_Indeed_Contact__c care = new Care_Indeed_Contact__c();
+            care.Name = 'test';
+            care.ADP_Associate_OID__c = 'G3A6H108DER4W1AV';
+            insert care;
+        Care_Indeed_Contact__c care12 = new Care_Indeed_Contact__c();
+            care12.Name = 'test';
+            care12.ADP_Associate_OID__c = 'G34V1BE4NZWS89Q4';
+            insert care12;    
+        Care_Indeed_Contact__c care1 = new Care_Indeed_Contact__c();
+            care1.Name = 'test';
+            care1.ADP_Associate_OID__c = 'G34V1BE4NZWSA4GW';
+            insert care1;
+               Care_Indeed_Contact__c care13 = new Care_Indeed_Contact__c();
+            care13.Name = 'test';
+            care13.ADP_Associate_OID__c = 'G3ZKQPWVB2D4RGD6';
+            insert care13;
+        Test.startTest();
+                WorkerSupportingDataCtrBatch_scheduled uca = new WorkerSupportingDataCtrBatch_scheduled();
+                uca.execute(null);  
+        Test.stopTest();
+
+    //List<Government_IDs__c> govlist = [Select id, ADP_Associate_OID__c from Government_IDs__c where ADP_Associate_OID__c=:'G3A6H108DER4W1AV'];
+    //System.assert(carelist.size() == 0);
+    
+    }
+
+}
