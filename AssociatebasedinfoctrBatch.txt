@@ -1,0 +1,161 @@
+global class AssociatebasedinfoctrBatch implements Database.Batchable<Sobject>, Database.AllowsCallouts, Database.stateful{
+    
+    global Database.querylocator start(Database.BatchableContext BC){
+        String Query = 'SELECT id, Name, ADP_Associate_OID__c from Care_Indeed_Contact__c';
+        return Database.getQueryLocator(Query);
+    }
+    
+    global void execute(Database.BatchableContext BC, List<Care_Indeed_Contact__c> scope){
+        
+    List<Time_Off_Balances__c> TOBlist = new List<Time_Off_Balances__c>();    
+    for(Care_Indeed_Contact__c cc: scope){
+        
+        String accessToken = CareIndeedWebServiceHelper.getAccessToken();
+        String endpoint = 'https://api.adp.com/time/v2/workers/';
+        Http http = new Http();
+        HttpRequest req = new HttpRequest();
+        HttpResponse res = new HttpResponse();
+        req.setMethod('GET');
+        req.setHeader('Authorization', 'Bearer '+accessToken);
+        req.setHeader('Accept', 'application/json;masked=false');
+        req.setEndpoint(endpoint+cc.ADP_Associate_OID__c+'/time-off-details/time-off-balances');
+        req.setTimeout(120000);
+        res = http.send(req);
+        String responsebody = res.getBody();
+
+        if(res.getStatusCode()!=200){
+            System.debug('Error from '+ req.getEndpoint() + ':'+ res.getStatusCode() + ' ' + res.getStatus());
+        }else if(responsebody.Contains('id')){
+// Start processing API Data
+            map<String, Object> workerlist = (map<String, Object>)JSON.deserializeUntyped(responsebody);
+            system.debug('------workerlist-------'+workerlist);
+            map<String, Object> paidTimeOffDetailsdata = (map<String, Object>)workerlist.get('paidTimeOffDetails');
+            System.debug('----paidTimeOffDetailsdata------'+paidTimeOffDetailsdata);
+// Start processing JSON Data            
+            List<Object> paidTimeOffBalanceslist = (List<Object>)paidTimeOffDetailsdata.get('paidTimeOffBalances');
+            if(paidTimeOffBalanceslist!=null){
+                for(Object PTBData: paidTimeOffBalanceslist){
+                    map<String, Object> paidTimeOffBalancesMap = (map<String, Object>)PTBData;
+                    System.debug('--paidTimeOffBalancesMap-----'+paidTimeOffBalancesMap);
+                    if(paidTimeOffBalancesMap!=null){       
+                        Time_Off_Balances__c tob = new Time_Off_Balances__c();
+                        System.debug('--cc.Name-----'+cc.Name);
+                        tob.Name = cc.Name;
+                        System.debug('--cc.id-----'+cc.id);
+                        tob.CIC_ADP_Associate_OID__c = cc.id;
+// Associate Position ID                        
+                        if(paidTimeOffBalancesMap.containsKey('positionRef')){
+                            map<String, Object> positionRefdata = (map<String, Object>)paidTimeOffBalancesMap.get('positionRef');
+                            System.debug('------positionRefdata------'+positionRefdata);
+                            if(positionRefdata.containsKey('positionID')){
+                                map<String, Object> positionIDdata = (map<String, Object>)positionRefdata.get('positionID');
+                                System.debug('------positionIDdata------'+positionIDdata);
+                                if(positionIDdata.containsKey('id')){
+                                    tob.Associate_PositionID__c = (String)positionIDdata.get('id');
+                                }
+                            }
+                        }
+// Balance As Of Date
+                        System.debug('STY--paidTimeOffBalancesMap.containsKey(asOfDate)--'+paidTimeOffBalancesMap.containsKey('asOfDate'));
+                        if(paidTimeOffBalancesMap.containsKey('asOfDate')){
+                            System.debug('STY--paidTimeOffBalancesMap.get(asOfDate)--'+paidTimeOffBalancesMap.get('asOfDate'));
+                            String asOfDate = (String)paidTimeOffBalancesMap.get('asOfDate');
+                            string mAsOfDate;
+                            if(asOfDate.substring(0,4) == '0000'){
+                                mAsOfDate = asOfDate.substring(8,10)+'/'+asOfDate.substring(5,7) +'/1900';
+                            }else{
+                                mAsOfDate = asOfDate.substring(8,10)+'/'+asOfDate.substring(5,7) +'/' +asOfDate.substring(0,4);
+                            }
+                            tob.Balance_As_Of__c = Date.parse(mAsOfDate);
+                        }
+// Paid Time Off Policy Balances
+                        System.debug('STY--paidTimeOffBalancesMap.get(paidTimeOffPolicyBalances)--'+paidTimeOffBalancesMap.get('paidTimeOffPolicyBalances'));
+                        List<Object> paidTimeOffPolicyBalancesList = (List<Object>)paidTimeOffBalancesMap.get('paidTimeOffPolicyBalances');
+                        if(paidTimeOffPolicyBalancesList!=null){
+                            for(Object pTOPolicyBalancesData: paidTimeOffPolicyBalancesList){
+                                Map<String, Object> pTOPolicyBalancesMap = (Map<String, Object>)pTOPolicyBalancesData;
+                                System.debug('STY--pTOPolicyBalancesMap--'+pTOPolicyBalancesMap);
+// Paid Time Of Policy
+                                System.debug('STY paidTimeOffPolicy Key: '+pTOPolicyBalancesMap.containsKey('paidTimeOffPolicy'));
+                                if(pTOPolicyBalancesMap.containsKey('paidTimeOffPolicy')){
+                                    Map<String, Object> paidTimeOffPolicyMap  = (Map<String, Object>)pTOPolicyBalancesMap.get('paidTimeOffPolicy');
+                                    System.debug('STY paidTimeOffPolicyMap: '+paidTimeOffPolicyMap);
+
+                                    String pTOPolicyName = (String)paidTimeOffPolicyMap.get('labelName');
+                                    System.debug('STY pTOPolicyName: '+pTOPolicyName);
+                                    
+                                    List<Object> policyBalancesList  = (List<Object>)pTOPolicyBalancesMap.get('policyBalances');
+                                    System.debug('STY policyBalancesList: '+policyBalancesList);
+                                    for(Object policyBalancesData: policyBalancesList){
+                                        Map<String, Object> policyBalancesMap = (Map<String, Object>)policyBalancesData;
+                                        System.debug('STY--policyBalancesMap.containsKey(balanceType)--'+policyBalancesMap.containsKey('balanceType'));
+                                        if(policyBalancesMap.containsKey('balanceType') && policyBalancesMap.containsKey('totalQuantity')){
+                                            if(pTOPolicyName == 'Sick Leave'){
+                                                Map<String, Object> balanceTypeMap = (Map<String, Object>)policyBalancesMap.get('balanceType');
+                                                Map<String, Object> totalQuantity = (Map<String, Object>)policyBalancesMap.get('totalQuantity');
+                                                if(balanceTypeMap.containsKey('labelName') && pTOPolicyName == 'Sick Leave'){
+                                                    if(balanceTypeMap.get('labelName') == 'Available'){
+                                                        System.debug('STY Sick Leave Available');
+                                                        System.debug('STY totalQuantity: '+totalQuantity.get('valueNumber'));
+                                                        tob.Sick_Leave_Available__c = (Decimal)totalQuantity.get('valueNumber');
+                                                        tob.Sick_Leave_Units__c = (String)totalQuantity.get('labelName');
+                                                    }
+                                                    if(balanceTypeMap.get('labelName') == 'Taken'){
+                                                        System.debug('STY Sick Leave Taken');
+                                                        System.debug('STY totalQuantity: '+totalQuantity.get('valueNumber'));
+                                                        tob.Sick_Leave_Taken__c = (Decimal)totalQuantity.get('valueNumber');
+                                                        tob.Sick_Leave_Units__c = (String)totalQuantity.get('labelName');
+                                                    }
+                                                    if(balanceTypeMap.get('labelName') == 'Scheduled'){
+                                                        System.debug('STY Sick Leave Scheduled');
+                                                        System.debug('STY totalQuantity: '+totalQuantity.get('valueNumber'));
+                                                        tob.Sick_Leave_Scheduled__c = (Decimal)totalQuantity.get('valueNumber');
+                                                        tob.Sick_Leave_Units__c = (String)totalQuantity.get('labelName');
+                                                    }
+                                                    if(balanceTypeMap.get('labelName') == 'Earned/Adjusted'){
+                                                        System.debug('STY Sick Leave Taken');
+                                                        System.debug('STY totalQuantity: '+totalQuantity.get('valueNumber'));
+                                                        tob.Sick_Leave_Earned_Adjusted__c = (Decimal)totalQuantity.get('valueNumber');
+                                                        tob.Sick_Leave_Units__c = (String)totalQuantity.get('labelName');
+                                                    }
+                                                }
+                                            }
+                                            if(pTOPolicyName == 'Unpaid Time Off'){
+                                                Map<String, Object> balanceTypeMap = (Map<String, Object>)policyBalancesMap.get('balanceType');
+                                                Map<String, Object> totalQuantity = (Map<String, Object>)policyBalancesMap.get('totalQuantity');
+                                                if(balanceTypeMap.containsKey('labelName') && pTOPolicyName == 'Unpaid Time Off'){
+                                                    if(balanceTypeMap.get('labelName') == 'Taken'){
+                                                        System.debug('STY Unpaid Time Off Taken');
+                                                        System.debug('STY totalQuantity: '+totalQuantity.get('valueNumber'));
+                                                        tob.UnPaid_Time_Off_Taken__c = (Decimal)totalQuantity.get('valueNumber');
+                                                        tob.UnPaid_Time_Off_Units__c = (String)totalQuantity.get('labelName');
+                                                    }
+                                                    if(balanceTypeMap.get('labelName') == 'Scheduled'){
+                                                        System.debug('STY Unpaid Time Off Scheduled');
+                                                        System.debug('STY totalQuantity: '+totalQuantity.get('valueNumber'));
+                                                        tob.UnPaid_Time_Off_Scheduled__c = (Decimal)totalQuantity.get('valueNumber');
+                                                        tob.UnPaid_Time_Off_Units__c = (String)totalQuantity.get('labelName');
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                } 
+                            }
+                        }
+// Add data to Collection
+                        TOBlist.add(tob);
+                    }
+                }
+            }
+        }
+    }
+// Update / Insert data to database     
+     upsert TOBlist Associate_PositionID__c;
+    }
+    
+    global void finish(Database.BatchableContext BC){
+    }
+  
+  
+}

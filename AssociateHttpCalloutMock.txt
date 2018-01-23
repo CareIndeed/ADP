@@ -1,0 +1,13 @@
+@isTest
+global class AssociateHttpCalloutMock implements HttpCalloutMock {
+    // Implement this interface method
+    global HTTPResponse respond(HTTPRequest request) {
+        // Create a fake response
+        HttpResponse response = new HttpResponse();
+        response.setHeader('Content-Type', 'application/json;charset=UTF-8');
+        response.setBody('{"paidTimeOffDetails":{"paidTimeOffBalances":[{"positionRef":{"positionID":{"id":"156880710_308","schemeName":"PFID","schemeAgencyName":"ADP Registery"},"title":"HM-1"},"asOfDate":"2018-01-23","paidTimeOffPolicyBalances":[{"paidTimeOffPolicy":{"code":"157315557_2099","labelName":"Sick Leave"},"policyBalances":[{"balanceType":{"code":"available","labelName":"Available"},"totalQuantity":{"valueNumber":43.11,"unitTimeCode":"hour","labelName":"Hours"},"accrualBalances":[],"paidTimeOffEntries":[]},{"balanceType":{"code":"taken","labelName":"Taken"},"totalQuantity":{"valueNumber":0,"unitTimeCode":"hour","labelName":"Hours"},"accrualBalances":[],"paidTimeOffEntries":[]},{"balanceType":{"code":"scheduled","labelName":"Scheduled"},"totalQuantity":{"valueNumber":0,"unitTimeCode":"hour","labelName":"Hours"},"accrualBalances":[],"paidTimeOffEntries":[]},{"balanceType":{"code":"earned","labelName":"Earned/Adjusted"},"totalQuantity":{"valueNumber":3.11,"unitTimeCode":"hour","labelName":"Hours"},"accrualBalances":[],"paidTimeOffEntries":[]}]},{"paidTimeOffPolicy":{"code":"157450653_3141","labelName":"Unpaid Time Off"},"policyBalances":[{"balanceType":{"code":"taken","labelName":"Taken"},"totalQuantity":{"valueNumber":0,"unitTimeCode":"hour","labelName":"Hours"},"accrualBalances":[],"paidTimeOffEntries":[]},{"balanceType":{"code":"scheduled","labelName":"Scheduled"},"totalQuantity":{"valueNumber":0,"unitTimeCode":"hour","labelName":"Hours"},"accrualBalances":[],"paidTimeOffEntries":[]}]}]}]}}');
+        response.setStatusCode(200);
+        return response; 
+    }
+    
+}

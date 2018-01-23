@@ -1,0 +1,40 @@
+@isTest
+private class AssociateDeserializeCtrBatch_Test {
+
+    private static testMethod void test() {
+    
+    Test.setMock(HttpCalloutMock.class, new AssociateHttpCalloutMock());
+    
+    Care_Indeed_Contact__c cc = new Care_Indeed_Contact__c();
+        cc.Name = 'Test';
+        insert cc;
+        
+        Test.startTest();
+            AssociatebasedinfoctrBatch_Scheduled uca = new AssociatebasedinfoctrBatch_Scheduled();
+                uca.execute(null);
+        Test.stopTest();
+    
+    List<Time_Off_Balances__c> Toblist = [Select id from Time_Off_Balances__c];
+    System.assert(Toblist.size()>0);
+        
+    }
+
+    private static testMethod void testStatusCodefail() {
+    
+    Test.setMock(HttpCalloutMock.class, new AssociateHttpCalloutMockfail());
+    
+        Care_Indeed_Contact__c cc1 = new Care_Indeed_Contact__c();
+            cc1.Name = 'AccountTest1';
+            insert cc1;
+        
+        Test.startTest();
+            AssociatebasedinfoctrBatch_Scheduled uca = new AssociatebasedinfoctrBatch_Scheduled();
+             uca.execute(null);
+        Test.stopTest();
+
+    List<Time_Off_Balances__c> Toblist = [Select id from Time_Off_Balances__c];
+    System.assert(Toblist.size() == 0);
+    
+    }
+
+}
